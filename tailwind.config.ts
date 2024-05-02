@@ -6,7 +6,7 @@ export default {
     "{routes,islands,components}/**/*.{ts,tsx}",
   ],
   plugins: [
-    //@ts-ignore automatic type derivaition not working properly
+    //@ts-ignore automatic type derivation not working properly
     daisyui,
   ],
   daisyui: {

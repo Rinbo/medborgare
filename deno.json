@@ -23,8 +23,13 @@
     "$std/": "https://deno.land/std@0.216.0/",
     "daisyui": "npm:daisyui@4.10.3",
     "lucide-preact": "npm:lucide-preact@0.363.0",
-    "components/": "./components/"
+    "components/": "./components/",
+    "http-utils": "./utils/http-utils.ts",
+    "crypto-utils": "./utils/crypto-utils.ts",
+    "kv/": "./kv/",
+    "z": "https://deno.land/x/zod@v3.22.4/mod.ts"
   },
+  "fmt": { "lineWidth": 140 },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "nodeModulesDir": true
 }
