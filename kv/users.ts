@@ -1,5 +1,6 @@
 import { monotonicFactory } from "https://deno.land/x/ulid@v0.3.0/mod.ts";
 import { createSha256Hash } from "crypto-utils";
+import { Optional } from "../utils/optional.ts";
 
 const ulid = monotonicFactory();
 const kv = await Deno.openKv();
@@ -16,19 +17,24 @@ export async function insertNewUser(newUser: NewUser): Promise<User> {
   return scrubDbUser(await insertUser(await createUser(newUser)));
 }
 
-export async function findUser(email: string): Promise<User> {
-  return scrubDbUser(await findDbUser(email));
+export async function findUser(email: string): Promise<Optional<User>> {
+  const dbUserOption = await findDbUser(email);
+  if (dbUserOption.isEmpty()) return Optional.empty();
+  return Optional.of(scrubDbUser(dbUserOption.get()));
 }
 
-export async function isValidPassword({ email, password }: { email: string; password: string }): Promise<boolean> {
-  const dbUser = await findDbUser(email);
-  return (await createSha256Hash(password)) === dbUser.password_hash;
+export async function validatePasswordAndGetUser({ email, password }: { email: string; password: string }): Promise<Optional<User>> {
+  const dbUserOption = await findDbUser(email);
+  if (dbUserOption.isEmpty()) return Optional.empty();
+  const dbUser = dbUserOption.get();
+  const isPasswordCorrect = (await createSha256Hash(password)) === dbUser.password_hash;
+  if (!isPasswordCorrect) return Optional.empty();
+  return Optional.of(scrubDbUser(dbUser));
 }
 
-async function findDbUser(email: string): Promise<DbUser> {
+async function findDbUser(email: string): Promise<Optional<DbUser>> {
   const dbUser = (await kv.get<DbUser>([USERS_BY_EMAIL, email])).value;
-  if (!dbUser) throw new Error("User not found: " + email);
-  return dbUser;
+  return Optional.ofNullable(dbUser);
 }
 
 async function insertUser(user: DbUser): Promise<DbUser> {

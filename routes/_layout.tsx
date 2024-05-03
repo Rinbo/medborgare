@@ -7,12 +7,11 @@ type Data = { flash: FlashMessage } | undefined;
 
 export default function Layout({ Component, state, data }: PageProps<Data, SessionState | undefined>) {
   console.info("Layout state", state);
-  const flash = data?.flash;
 
   return (
     <div class="h-screen w-screen flex flex-col">
-      {flash && <Flash flash={flash} />}
-      <NavBar isLoggedIn={!!state} />
+      {data?.flash && <Flash flash={data.flash} />}
+      <NavBar isLoggedIn={!!state?.sessionId} />
       <div class="grow">
         <Component />
       </div>

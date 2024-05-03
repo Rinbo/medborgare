@@ -3,8 +3,9 @@ import { SessionState } from "../utils/types.ts";
 import { redirect } from "http-utils";
 import { Lock } from "lucide-preact";
 import { z } from "z";
-import { isValidPassword } from "kv/users.ts";
+import { validatePasswordAndGetUser } from "kv/users.ts";
 import { flash } from "misc-utils";
+import { commitSession, createSession } from "session-utils";
 
 const schema = z.object({
   email: z.string().email(),
@@ -21,16 +22,16 @@ export const handler: Handlers<object, SessionState | undefined> = {
 
     if (!validation.success) return ctx.render(flash("Validation failed, check your inputs", "error"));
 
-    const sessionId = crypto.randomUUID();
     const { email, password } = validation.data;
 
-    if (!(await isValidPassword({ email, password }))) return ctx.render(flash("Password is invalid or user does not exist", "error"));
+    const userOption = await validatePasswordAndGetUser({ email, password });
 
-    // create session
+    if (userOption.isEmpty()) return ctx.render(flash("Password is invalid or user does not exist", "error"));
 
-    console.log("user authentication passed");
+    const user = userOption.get();
+    const session = await createSession(email, user.name, req.headers.get("user-agent") ?? "");
 
-    return redirect("/");
+    return redirect("/", { "Set-Cookie": commitSession(session) });
   },
 };
 

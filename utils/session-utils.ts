@@ -34,8 +34,9 @@ export async function getSession(req: Request): Promise<Optional<Session>> {
 
 export function getCookieSession(req: Request): Optional<SessionState> {
   const cookies = getCookies(req.headers);
-  const session = JSON.parse(cookies[COOKIE_SESSION_NAME]) as SessionState;
-  return Optional.ofNullable(session);
+  const cookieValue = cookies[COOKIE_SESSION_NAME];
+  if (!cookieValue) return Optional.empty();
+  return Optional.ofNullable(JSON.parse(decodeURIComponent(cookieValue)) as SessionState);
 }
 
 function convertToSessionState({ id, name, email }: Session): SessionState {
