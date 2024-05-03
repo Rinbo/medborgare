@@ -11,19 +11,20 @@ const schema = z.object({
   password: z.string().min(6),
 });
 
-export const handler: Handlers<object, SessionState> = {
+export const handler: Handlers<object, SessionState | undefined> = {
   GET(_req, ctx) {
     return ctx.state?.sessionId ? redirect("/") : ctx.render();
   },
   async POST(req, ctx) {
     const formdata = await req.formData();
     const validation = schema.safeParse(Object.fromEntries(formdata));
-    if (!validation.success) return ctx.render(flash("Invalid input", "error"));
+
+    if (!validation.success) return ctx.render(flash("Validation failed, check your inputs", "error"));
 
     const sessionId = crypto.randomUUID();
     const { email, password } = validation.data;
 
-    if (!(await isValidPassword({ email, password }))) throw new Error("validation failed");
+    if (!(await isValidPassword({ email, password }))) return ctx.render(flash("Password is invalid or user does not exist", "error"));
 
     // create session
 

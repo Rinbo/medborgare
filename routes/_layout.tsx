@@ -5,14 +5,14 @@ import Flash, { FlashMessage } from "../islands/Flash.tsx";
 
 type Data = { flash: FlashMessage } | undefined;
 
-export default function Layout({ Component, state, data }: PageProps<Data, SessionState>) {
+export default function Layout({ Component, state, data }: PageProps<Data, SessionState | undefined>) {
   console.info("Layout state", state);
   const flash = data?.flash;
 
   return (
     <div class="h-screen w-screen flex flex-col">
       {flash && <Flash flash={flash} />}
-      <NavBar sessionState={state} />
+      <NavBar isLoggedIn={!!state} />
       <div class="grow">
         <Component />
       </div>
@@ -25,7 +25,7 @@ export default function Layout({ Component, state, data }: PageProps<Data, Sessi
   );
 }
 
-function NavBar({ sessionState }: { sessionState: SessionState }) {
+function NavBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <div className="navbar bg-base-300 rounded-box">
       <div className="flex-1 px-2 lg:flex-none">
@@ -37,7 +37,7 @@ function NavBar({ sessionState }: { sessionState: SessionState }) {
             <div tabIndex={0} role="button" className="btn btn-primary btn-circle">
               <Globe />
             </div>
-            {sessionState?.sessionId ? <SessionLinks /> : <AnonomousLinks />}
+            {isLoggedIn ? <SessionLinks /> : <AnonomousLinks />}
           </div>
         </div>
       </div>
