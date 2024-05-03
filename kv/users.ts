@@ -13,8 +13,8 @@ export type User = Omit<DbUser, "password_hash">;
 const USERS = "users";
 const USERS_BY_EMAIL = "users_by_email";
 
-export async function insertNewUser(newUser: NewUser): Promise<User> {
-  return scrubDbUser(await insertUser(await createUser(newUser)));
+export async function insertNewUser(newUser: NewUser): Promise<boolean> {
+  return await insertUser(await createUser(newUser));
 }
 
 export async function findUser(email: string): Promise<Optional<User>> {
@@ -37,15 +37,13 @@ async function findDbUser(email: string): Promise<Optional<DbUser>> {
   return Optional.ofNullable(dbUser);
 }
 
-async function insertUser(user: DbUser): Promise<DbUser> {
+async function insertUser(user: DbUser): Promise<boolean> {
   const result = await kv.atomic()
     .set([USERS, user.id], user)
     .set([USERS_BY_EMAIL, user.email], user)
     .commit();
 
-  if (!result.ok) throw new Error("Insertion of user failed");
-
-  return user;
+  return result.ok;
 }
 
 async function createUser({ name, email, password }: NewUser) {

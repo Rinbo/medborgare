@@ -9,10 +9,7 @@ export function getSearchParams(
 export function json(body: object, status: number, optionalHeaders?: object) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: {
-      ...optionalHeaders,
-      "Content-Type": "application/json; charset=utf-8",
-    },
+    headers: { ...optionalHeaders, "Content-Type": "application/json; charset=utf-8" },
   });
 }
 

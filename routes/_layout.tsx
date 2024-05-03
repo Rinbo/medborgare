@@ -2,6 +2,7 @@ import { PageProps } from "$fresh/server.ts";
 import { Globe } from "lucide-preact";
 import { SessionState } from "../utils/types.ts";
 import Flash, { FlashMessage } from "../islands/Flash.tsx";
+import { LogoutButton } from "./logout.tsx";
 
 type Data = { flash: FlashMessage } | undefined;
 
@@ -48,10 +49,7 @@ function SessionLinks() {
   return (
     <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-200 border border-primary rounded-box w-52 mt-4">
       <li>
-        <a>Item 1</a>
-      </li>
-      <li>
-        <a>Item 2</a>
+        <LogoutButton />
       </li>
     </ul>
   );

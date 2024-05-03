@@ -7,6 +7,7 @@ import * as $_app from "./routes/_app.tsx";
 import * as $_layout from "./routes/_layout.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
 import * as $index from "./routes/index.tsx";
+import * as $logout from "./routes/logout.tsx";
 import * as $signin from "./routes/signin.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $Flash from "./islands/Flash.tsx";
@@ -19,6 +20,7 @@ const manifest = {
     "./routes/_layout.tsx": $_layout,
     "./routes/_middleware.ts": $_middleware,
     "./routes/index.tsx": $index,
+    "./routes/logout.tsx": $logout,
     "./routes/signin.tsx": $signin,
   },
   islands: {
