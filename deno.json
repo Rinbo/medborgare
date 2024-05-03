@@ -26,6 +26,7 @@
     "components/": "./components/",
     "http-utils": "./utils/http-utils.ts",
     "crypto-utils": "./utils/crypto-utils.ts",
+    "misc-utils": "./utils/misc-utils.ts",
     "kv/": "./kv/",
     "z": "https://deno.land/x/zod@v3.22.4/mod.ts"
   },

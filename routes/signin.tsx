@@ -3,7 +3,8 @@ import { SessionState } from "../utils/types.ts";
 import { redirect } from "http-utils";
 import { Lock } from "lucide-preact";
 import { z } from "z";
-import { insertNewUser, isValidPassword } from "kv/users.ts";
+import { isValidPassword } from "kv/users.ts";
+import { flash } from "misc-utils";
 
 const schema = z.object({
   email: z.string().email(),
@@ -15,11 +16,9 @@ export const handler: Handlers<object, SessionState> = {
     return ctx.state?.sessionId ? redirect("/") : ctx.render();
   },
   async POST(req, ctx) {
-    console.log(req, "REQ");
-
     const formdata = await req.formData();
     const validation = schema.safeParse(Object.fromEntries(formdata));
-    if (!validation.success) return ctx.render();
+    if (!validation.success) return ctx.render(flash("Invalid input", "error"));
 
     const sessionId = crypto.randomUUID();
     const { email, password } = validation.data;

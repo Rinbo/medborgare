@@ -1,15 +1,20 @@
-import { defineLayout, RouteContext } from "$fresh/server.ts";
+import { PageProps } from "$fresh/server.ts";
 import { Globe } from "lucide-preact";
 import { SessionState } from "../utils/types.ts";
+import Flash, { FlashMessage } from "../islands/Flash.tsx";
 
-export default defineLayout((_req, ctx: RouteContext<void, SessionState>) => {
-  console.info("Layout state", ctx.state);
+type Data = { flash: FlashMessage } | undefined;
+
+export default function Layout({ Component, state, data }: PageProps<Data, SessionState>) {
+  console.info("Layout state", state);
+  const flash = data?.flash;
 
   return (
     <div class="h-screen w-screen flex flex-col">
-      <NavBar sessionState={ctx.state} />
+      {flash && <Flash flash={flash} />}
+      <NavBar sessionState={state} />
       <div class="grow">
-        <ctx.Component />
+        <Component />
       </div>
       <footer className="footer footer-center p-2 bg-base-300 text-base-content font-mono">
         <aside>
@@ -18,13 +23,13 @@ export default defineLayout((_req, ctx: RouteContext<void, SessionState>) => {
       </footer>
     </div>
   );
-});
+}
 
 function NavBar({ sessionState }: { sessionState: SessionState }) {
   return (
     <div className="navbar bg-base-300 rounded-box">
       <div className="flex-1 px-2 lg:flex-none">
-        <a className="text-lg font-bold" href="/">medborgare</a>
+        <a className="text-lg font-bold" href="/">Medborgare</a>
       </div>
       <div className="flex justify-end flex-1 px-2">
         <div className="flex items-stretch">
