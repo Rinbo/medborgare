@@ -1,12 +1,13 @@
-import { Handlers, RouteContext } from "$fresh/server.ts";
+import { FreshContext, Handlers, PageProps, RouteContext } from "$fresh/server.ts";
 
 export const handler: Handlers<string> = {
   GET(_req, ctx) {
-    return ctx.render(ctx.params.testId);
+    console.log(ctx.params.kommun);
+
+    return ctx.render(ctx.params.kommun);
   },
 };
 
-export default function Test(req: Request, ctx: RouteContext) {
-  const kommun = ctx.data;
-  return <div>Hello {decodeURIComponent(kommun)}</div>;
+export default function Test({ data }: PageProps) {
+  return <div>Hello {decodeURIComponent(data)}</div>;
 }

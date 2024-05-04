@@ -7,8 +7,6 @@ import { LogoutButton } from "./logout.tsx";
 type Data = { flash: FlashMessage } | undefined;
 
 export default function Layout({ Component, state, data }: PageProps<Data, SessionState | undefined>) {
-  console.info("Layout state", state);
-
   return (
     <div class="h-screen w-screen flex flex-col">
       {data?.flash && <Flash flash={data.flash} />}
