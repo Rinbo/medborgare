@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import useDebouncedQueryFetch from "../hooks/useDebouncedQueryFetch.ts";
 import { City } from "../routes/api/k-search.ts";
 import { arrayIsEmpty } from "misc-utils";
-import { TargetedEvent } from "types";
 
 export default function CitySearch() {
   const [input, setInput] = useState<string>("");

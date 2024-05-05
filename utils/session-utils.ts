@@ -5,6 +5,7 @@ import { serializeCookie } from "./cookie-utils.ts";
 import { COOKIE_MAX_AGE } from "constants";
 import { Optional } from "./optional.ts";
 import { SessionState } from "./types.ts";
+import { User } from "kv/users.ts";
 
 const COOKIE_SESSION_NAME = "session";
 
@@ -20,8 +21,8 @@ export async function destroySession(req: Request): Promise<string> {
   return serializeCookie(COOKIE_SESSION_NAME, createCookieOptions("", 0));
 }
 
-export async function createSession(email: string, name: string, userAgent: string): Promise<Session> {
-  const session = { id: crypto.randomUUID(), email, name, createdAt: new Date().toUTCString(), userAgent } satisfies Session;
+export async function createSession({ email, name, id: userId }: User, userAgent: string): Promise<Session> {
+  const session = { id: crypto.randomUUID(), email, name, userId, createdAt: new Date().toUTCString(), userAgent } satisfies Session;
   if (await insertSession(session)) return session;
   throw new Error("Saving of session failed for " + email);
 }

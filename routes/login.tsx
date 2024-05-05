@@ -29,7 +29,7 @@ export const handler: Handlers<object, SessionState | undefined> = {
     if (userOption.isEmpty()) return ctx.render(flash("Password is invalid or user does not exist", "error"));
 
     const user = userOption.get();
-    const session = await createSession(email, user.name, req.headers.get("user-agent") ?? "");
+    const session = await createSession(user, req.headers.get("user-agent") ?? "");
 
     return redirect("/", { "Set-Cookie": commitSession(session) });
   },

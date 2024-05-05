@@ -3,7 +3,7 @@ import { Optional } from "../utils/optional.ts";
 
 const kv = await Deno.openKv();
 
-export type Session = { id: string; email: string; name: string; createdAt: string; userAgent: string };
+export type Session = { id: string; email: string; name: string; userId: string; createdAt: string; userAgent: string };
 type SessionIdentifier = Omit<Session, "createdAt" | "name" | "userAgent">;
 
 const SESSIONS = "sessions";
