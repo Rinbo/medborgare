@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import useDebouncedQueryFetch from "../hooks/useDebouncedQueryFetch.ts";
 import { City } from "../routes/api/k-search.ts";
 import { arrayIsEmpty } from "misc-utils";
+import { TargetedEvent } from "types";
 
 export default function CitySearch() {
   const [input, setInput] = useState<string>("");
@@ -14,18 +15,32 @@ export default function CitySearch() {
   useEffect(() => inputRef.current?.focus(), []);
 
   useEffect(() => {
-    // TODO user clicking escape should also hide the combo box
     document.addEventListener("click", onClickOutside);
     return () => document.removeEventListener("click", onClickOutside);
   }, []);
 
-  function onClickOutside(e: MouseEvent | TouchEvent): void {
-    const target = e.target as Node;
+  function onClickOutside(event: MouseEvent | TouchEvent): void {
+    const target = event.target as Node;
     !inputRef.current?.contains(target) && !comboRef.current?.contains(target) && setFocus(false);
   }
 
+  function onEscape(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      inputRef.current?.blur();
+      setFocus(false);
+    }
+  }
+
+  function onSubmit(event: SubmitEvent) {
+    event.preventDefault();
+
+    if (result && !arrayIsEmpty(result)) {
+      window.location.href = `/k/${result[0].name}`;
+    }
+  }
+
   return (
-    <form class="relative w-full max-w-sm" onClick={() => setFocus(true)}>
+    <form class="relative w-full max-w-sm" onClick={() => setFocus(true)} onSubmit={(e) => onSubmit(e)} onKeyDown={onEscape}>
       <label class="input input-bordered input-primary flex items-center gap-2">
         <input
           onInput={(e) => setInput(e.currentTarget.value)}
@@ -43,9 +58,9 @@ export default function CitySearch() {
           />
         </svg>
       </label>
-      {result && !arrayIsEmpty(result) && focus && (
+      {!arrayIsEmpty(result) && focus && (
         <div class="absolute z-10 bg-base-100 mt-2 p-2 border border-primary overflow-clip rounded-md w-full" ref={comboRef}>
-          {result.map((city) => <CityResult city={city} />)}
+          {result?.map((city) => <CityResult city={city} />)}
         </div>
       )}
     </form>

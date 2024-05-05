@@ -7,3 +7,6 @@ export type SessionState = { email: string; name: string; sessionId: string };
 
 export type InputChangeEvent = JSX.TargetedEvent<HTMLInputElement, Event>;
 export type InputEvent = JSX.TargetedInputEvent<HTMLInputElement>;
+export type KeyboardEvent = JSX.TargetedKeyboardEvent<HTMLFormElement>;
+export type FormSubmitEvent = JSX.TargetedSubmitEvent<HTMLFormElement>;
+export type TargetedEvent = JSX.TargetedEvent<HTMLFormElement, Event>;

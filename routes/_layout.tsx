@@ -60,7 +60,7 @@ function AnonomousLinks() {
   return (
     <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-200 border border-primary rounded-box w-52 mt-4">
       <li>
-        <a href="/signin">Signin</a>
+        <a href="/login">Sign In</a>
       </li>
       <li>
         <a>Item 2</a>

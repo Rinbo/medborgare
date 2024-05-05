@@ -40,7 +40,7 @@ export default function Signin() {
     <div class="flex flex-col justify-center items-center h-full p-2">
       <div class="flex flex-col items-center p-4 bg-base-200 shadow-sm border border-primary rounded-lg w-full max-w-sm">
         <Lock class="text-error" />
-        <h1 class="text-2xl mb-2">Signin</h1>
+        <h1 class="text-2xl mb-2">Sign In</h1>
         <form method="POST" class="w-full flex flex-col">
           <label className="form-control">
             <span className="label label-text">Email</span>

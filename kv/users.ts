@@ -1,6 +1,7 @@
 import { monotonicFactory } from "https://deno.land/x/ulid@v0.3.0/mod.ts";
 import { createSha256Hash } from "crypto-utils";
 import { Optional } from "../utils/optional.ts";
+import { db } from "$std/media_types/_db.ts";
 
 const ulid = monotonicFactory();
 const kv = await Deno.openKv();
@@ -27,6 +28,7 @@ export async function validatePasswordAndGetUser({ email, password }: { email: s
   const dbUserOption = await findDbUser(email);
   if (dbUserOption.isEmpty()) return Optional.empty();
   const dbUser = dbUserOption.get();
+  console.log(dbUser);
   const isPasswordCorrect = (await createSha256Hash(password)) === dbUser.password_hash;
   if (!isPasswordCorrect) return Optional.empty();
   return Optional.of(scrubDbUser(dbUser));
