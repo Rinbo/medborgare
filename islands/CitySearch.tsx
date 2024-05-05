@@ -14,20 +14,14 @@ export default function CitySearch() {
   useEffect(() => inputRef.current?.focus(), []);
 
   useEffect(() => {
+    // TODO user clicking escape should also hide the combo box
     document.addEventListener("click", onClickOutside);
     return () => document.removeEventListener("click", onClickOutside);
   }, []);
 
   function onClickOutside(e: MouseEvent | TouchEvent): void {
     const target = e.target as Node;
-    if (
-      inputRef.current &&
-      comboRef.current &&
-      !inputRef.current.contains(target) &&
-      !comboRef.current.contains(target)
-    ) {
-      setFocus(false);
-    }
+    !inputRef.current?.contains(target) && !comboRef.current?.contains(target) && setFocus(false);
   }
 
   return (
@@ -37,7 +31,7 @@ export default function CitySearch() {
           onInput={(e) => setInput(e.currentTarget.value)}
           type="text"
           class="grow"
-          placeholder="Sök stad"
+          placeholder="Sök kommun"
           value={input}
           ref={inputRef}
         />
