@@ -10,6 +10,10 @@ export default {
     daisyui,
   ],
   daisyui: {
-    themes: ["light", "dark", "cupcake"],
+    themes: [
+      "light",
+      "dark",
+      "cupcake",
+    ],
   },
 } satisfies Config;

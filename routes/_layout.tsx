@@ -14,7 +14,7 @@ export default function Layout({ Component, state, data }: PageProps<Data, Sessi
       <div class="grow">
         <Component />
       </div>
-      <footer className="footer footer-center p-2 bg-base-300 text-base-content font-mono">
+      <footer className="footer footer-center p-2 text-base-content font-mono bg-base-300">
         <aside>
           <p>Copyright © 2024 - borjessons.dev</p>
         </aside>
@@ -25,7 +25,7 @@ export default function Layout({ Component, state, data }: PageProps<Data, Sessi
 
 function NavBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
-    <div className="navbar bg-base-300 rounded-box">
+    <div className="navbar rounded-box bg-base-300">
       <div className="flex-1 px-2 lg:flex-none">
         <a className="text-lg font-bold" href="/">Medborgare</a>
       </div>
@@ -45,7 +45,7 @@ function NavBar({ isLoggedIn }: { isLoggedIn: boolean }) {
 
 function SessionLinks() {
   return (
-    <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-200 border border-primary rounded-box w-52 mt-4">
+    <ul tabIndex={0} className="menu dropdown-content z-20 bg-base-100 p-2 shadow border border-primary rounded-box w-64 mt-4">
       <li>
         <LogoutButton />
       </li>
@@ -58,7 +58,7 @@ function SessionLinks() {
 
 function AnonomousLinks() {
   return (
-    <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-200 border border-primary rounded-box w-52 mt-4">
+    <ul tabIndex={0} className="menu dropdown-content z-20 bg-base-100 p-2 shadow border border-primary rounded-box w-64 mt-4">
       <li>
         <a href="/login">Sign In</a>
       </li>
