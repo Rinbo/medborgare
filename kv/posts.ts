@@ -17,7 +17,7 @@ It seems to me we are going to need a relational database for this. There will b
 and frankly hard to manage
 */
 
-type Post = {
+export type Post = {
   id: string;
   city: string;
   title: string;

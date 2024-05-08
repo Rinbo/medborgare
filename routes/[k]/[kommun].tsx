@@ -10,7 +10,9 @@ export const handler: Handlers<string> = {
 export default function Test({ data }: PageProps) {
   return (
     <div class="mx-auto w-full max-w-3xl">
-      <h1 class="text-4xl text-center my-6 font-mono">{decodeURIComponent(data)}</h1>
+      <h1 class="mx-1 rounded-lg border border-primary bg-primary p-2 text-center font-mono text-4xl font-semibold uppercase shadow">
+        {decodeURIComponent(data)}
+      </h1>
       {POSTS.map((post) => <PostPreview key={post.id} post={post} />)}
     </div>
   );
@@ -18,20 +20,35 @@ export default function Test({ data }: PageProps) {
 
 function PostPreview({ post }: { post: Post }) {
   return (
-    <div class="bg-base-200 rounded-lg border border-primary shadow-sm p-4 my-4 hover:bg-base-300">
-      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{post.title}</h5>
-      <p class="mb-3 font-normal text-gray-700">
-        by <span class="font-semibold">{post.userName}</span>
+    <div class="mx-1 my-3 rounded-lg border bg-base-200 p-4 shadow hover:bg-base-300">
+      <h5 class="upp mb-2 text-2xl font-bold tracking-tight text-primary">{post.title}</h5>
+      <p class="mb-1 text-xs font-normal">
+        <span class="font-semibold text-info">{post.userName}</span>
       </p>
-      <p class="mb-4 font-light text-gray-500 truncate">
+      <p class="mb-2 truncate font-light">
         {post.body}
       </p>
-      <p class="text-sm text-gray-400">
-        Posted on <time>{post.createdAt}</time>
+      <p class="text-xs italic">
+        Posted on {new Date(post.createdAt).toLocaleDateString()}
       </p>
     </div>
   );
 }
+
+// function PostPreview({ post }: { post: Post }) {
+//   return (
+//     <div className="my-5 w-full overflow-hidden rounded-xl bg-white shadow-md">
+//       <div className="p-5">
+//         <div className="mb-2 text-xl font-bold text-primary">{post.title}</div>
+//         <div className="text-base text-gray-700">
+//           <div className="leading-none text-gray-900">{post.userName}</div>
+//           <div className="text-gray-600">{post.createdAt}</div>
+//         </div>
+//         <p className="mt-2 truncate text-sm text-gray-700">{post.body}</p>
+//       </div>
+//     </div>
+//   );
+//}
 
 const POSTS: Post[] = [{
   "id": "b2e0b676-6de4-4faa-ac5a-593dd79147d9",
