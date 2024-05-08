@@ -1,5 +1,5 @@
 import { PageProps } from "$fresh/server.ts";
-import { Globe } from "lucide-preact";
+import { Globe, Landmark } from "lucide-preact";
 import { SessionState } from "../utils/types.ts";
 import Flash, { FlashMessage } from "../islands/Flash.tsx";
 import { LogoutButton } from "./logout.tsx";
@@ -25,9 +25,11 @@ export default function Layout({ Component, state, data }: PageProps<Data, Sessi
 
 function NavBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
-    <div className="navbar">
+    <nav className="navbar">
       <div className="flex-1 px-2 lg:flex-none">
-        <a className="btn btn-outline" href="/">Medborgare</a>
+        <a className="btn btn-ghost text-lg" href="/">
+          <Landmark /> Medborgare
+        </a>
       </div>
       <div className="flex flex-1 justify-end px-2">
         <div className="flex items-stretch">
@@ -39,7 +41,7 @@ function NavBar({ isLoggedIn }: { isLoggedIn: boolean }) {
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
 
