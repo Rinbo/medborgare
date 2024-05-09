@@ -1,10 +1,11 @@
 import { Handlers } from "$fresh/server.ts";
 import { destroySession } from "session-utils";
 import { redirect } from "http-utils";
+import { ROUTES } from "route-utils";
 
 export const handler: Handlers = {
   async POST(req, _ctx) {
-    return redirect("/", { "Set-Cookie": await destroySession(req) });
+    return redirect(ROUTES.root, { "Set-Cookie": await destroySession(req) });
   },
 };
 
@@ -18,8 +19,8 @@ export default function Logout() {
 
 export function LogoutButton() {
   return (
-    <form action={"/logout"} method="post">
-      <button type="submit" class="flex flex-row gap-1 items-center justify-center">
+    <form action={ROUTES.logout} method="post">
+      <button type="submit" class="flex flex-row items-center justify-center gap-1">
         Logout
       </button>
     </form>

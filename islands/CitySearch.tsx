@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import useDebouncedQueryFetch from "../hooks/useDebouncedQueryFetch.ts";
 import { City } from "../routes/api/k-search.ts";
 import { arrayIsEmpty } from "misc-utils";
+import { ROUTES } from "route-utils";
 
 export default function CitySearch() {
   const [input, setInput] = useState<string>("");
-  const result = useDebouncedQueryFetch<City[]>("/api/k-search", input, 150);
+  const result = useDebouncedQueryFetch<City[]>(ROUTES.kSearch, input, 150);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const comboRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,7 +35,7 @@ export default function CitySearch() {
     event.preventDefault();
 
     if (result && !arrayIsEmpty(result)) {
-      window.location.href = `/k/${result[0].name}`;
+      window.location.href = ROUTES.city(result[0].name);
     }
   }
 
@@ -49,7 +50,7 @@ export default function CitySearch() {
           value={input}
           ref={inputRef}
         />
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
           <path
             fill-rule="evenodd"
             d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
@@ -58,7 +59,7 @@ export default function CitySearch() {
         </svg>
       </label>
       {!arrayIsEmpty(result) && focus && (
-        <div class="absolute z-10 bg-base-100 mt-2 p-2 border border-primary overflow-clip rounded-md w-full" ref={comboRef}>
+        <div class="absolute z-10 mt-2 w-full overflow-clip rounded-md border border-primary bg-base-100 p-2" ref={comboRef}>
           {result?.map((city) => <CityResult city={city} />)}
         </div>
       )}
@@ -72,9 +73,9 @@ interface CityInterface {
 
 function CityResult({ city: { name, province } }: CityInterface) {
   return (
-    <a href={`/k/${name}`} class="flex flex-row flex-nowrap justify-between btn btn-ghost btn-sm rounded-sm">
+    <a href={ROUTES.city(name)} class="btn btn-ghost btn-sm flex flex-row flex-nowrap justify-between rounded-sm">
       <span class="overflow-ellipsis whitespace-nowrap">{name}</span>
-      <span class="text-xs text-neutral-400 truncate">{province}</span>
+      <span class="truncate text-xs text-neutral-400">{province}</span>
     </a>
   );
 }

@@ -1,11 +1,12 @@
 import { Handlers } from "$fresh/server.ts";
-import { SessionState } from "../utils/types.ts";
+import { SessionState } from "types";
 import { redirect } from "http-utils";
 import { Lock } from "lucide-preact";
 import { z } from "z";
 import { validatePasswordAndGetUser } from "kv/users.ts";
 import { flash } from "misc-utils";
 import { commitSession, createSession } from "session-utils";
+import { ROUTES } from "route-utils";
 
 const schema = z.object({
   email: z.string().email(),
@@ -14,7 +15,7 @@ const schema = z.object({
 
 export const handler: Handlers<object, SessionState | undefined> = {
   GET(_req, ctx) {
-    return ctx.state?.sessionId ? redirect("/") : ctx.render();
+    return ctx.state?.sessionId ? redirect(ROUTES.root) : ctx.render();
   },
   async POST(req, ctx) {
     const formdata = await req.formData();
@@ -31,26 +32,26 @@ export const handler: Handlers<object, SessionState | undefined> = {
     const user = userOption.get();
     const session = await createSession(user, req.headers.get("user-agent") ?? "");
 
-    return redirect("/", { "Set-Cookie": commitSession(session) });
+    return redirect(ROUTES.root, { "Set-Cookie": commitSession(session) });
   },
 };
 
 export default function Signin() {
   return (
-    <div class="flex flex-col justify-center items-center h-full p-2">
-      <div class="flex flex-col items-center p-4 bg-base-200 shadow-sm border border-primary rounded-lg w-full max-w-sm">
+    <div class="flex h-full flex-col items-center justify-center p-2">
+      <div class="flex w-full max-w-sm flex-col items-center rounded-lg border border-primary bg-base-200 p-4 shadow-sm">
         <Lock class="text-error" />
-        <h1 class="text-2xl mb-2">Sign In</h1>
-        <form method="POST" class="w-full flex flex-col">
+        <h1 class="mb-2 text-2xl">Sign In</h1>
+        <form method="POST" class="flex w-full flex-col">
           <label className="form-control">
             <span className="label label-text">Email</span>
-            <input name="email" type="email" placeholder="john.doe@example.com" className="input input-bordered input-sm" />
+            <input name="email" type="email" placeholder="john.doe@example.com" className="input input-sm input-bordered" />
           </label>
           <label className="form-control">
             <span className="label label-text">Password</span>
-            <input name="password" type="password" placeholder="password" className="input input-bordered input-sm" />
+            <input name="password" type="password" placeholder="password" className="input input-sm input-bordered" />
           </label>
-          <button type="submit" class="btn btn-primary btn-sm w-full mt-4">Submit</button>
+          <button type="submit" class="btn btn-primary btn-sm mt-4 w-full">Submit</button>
         </form>
       </div>
     </div>

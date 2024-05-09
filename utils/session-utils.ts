@@ -4,7 +4,7 @@ import type { CookieOptions } from "./cookie-utils.ts";
 import { serializeCookie } from "./cookie-utils.ts";
 import { COOKIE_MAX_AGE } from "constants";
 import { Optional } from "./optional.ts";
-import { SessionState } from "./types.ts";
+import { SessionState } from "types";
 import { User } from "kv/users.ts";
 
 const COOKIE_SESSION_NAME = "session";

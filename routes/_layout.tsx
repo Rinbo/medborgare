@@ -1,8 +1,9 @@
 import { PageProps } from "$fresh/server.ts";
 import { Globe, Landmark } from "lucide-preact";
-import { SessionState } from "../utils/types.ts";
+import { SessionState } from "types";
 import Flash, { FlashMessage } from "../islands/Flash.tsx";
 import { LogoutButton } from "./logout.tsx";
+import { ROUTES } from "route-utils";
 
 type Data = { flash: FlashMessage } | undefined;
 
@@ -27,7 +28,7 @@ function NavBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <nav className="navbar">
       <div className="flex-1 px-2 lg:flex-none">
-        <a className="btn btn-ghost text-lg" href="/">
+        <a className="btn btn-ghost text-lg" href={ROUTES.root}>
           <Landmark /> Medborgare
         </a>
       </div>
@@ -62,7 +63,7 @@ function AnonomousLinks() {
   return (
     <ul tabIndex={0} className="menu dropdown-content z-20 mt-4 w-64 rounded-box border border-primary bg-base-100 p-2 shadow">
       <li>
-        <a href="/login">Sign In</a>
+        <a href={ROUTES.login}>Sign In</a>
       </li>
       <li>
         <a>Item 2</a>

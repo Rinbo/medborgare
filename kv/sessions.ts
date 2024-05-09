@@ -1,4 +1,4 @@
-import { COOKIE_MAX_AGE } from "constants";
+import { COOKIE_MAX_AGE } from "../utils/constants.ts";
 import { Optional } from "../utils/optional.ts";
 
 const kv = await Deno.openKv();
