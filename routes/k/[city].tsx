@@ -3,7 +3,8 @@ import { Post } from "kv/posts.ts";
 import { SessionState } from "types";
 import { ROUTES } from "route-utils";
 import NavIcon from "components/nav/NavIcon.tsx";
-import { CircleChevronLeft, CirclePlus, Home } from "lucide-preact";
+import { CircleChevronLeft, CirclePlus } from "lucide-preact";
+import ActionRow from "components/nav/ActionRow.tsx";
 
 export default async function City(_req: Request, ctx: RouteContext<undefined, SessionState | undefined>) {
   const posts: Post[] = JSON.parse(await Deno.readTextFile("./static/posts.json"));
@@ -15,18 +16,11 @@ export default async function City(_req: Request, ctx: RouteContext<undefined, S
       <h1 class="mx-1 mb-1 rounded-lg border p-2 text-center font-mono text-4xl font-semibold uppercase">
         {city}
       </h1>
-      <nav class="mx-1 rounded-lg border">
-        <ul class="menu menu-horizontal menu-xs flex">
-          <NavIcon href="javascript:history.back()" tooltip="Back" icon={<CircleChevronLeft />} />
-
-          <div class="grow" />
-          {state?.sessionId && (
-            <>
-              <NavIcon href={ROUTES.newPost(city)} tooltip="New Post" icon={<CirclePlus />} />
-            </>
-          )}
-        </ul>
-      </nav>
+      <ActionRow>
+        <NavIcon href="javascript:history.back()" tooltip="Back" icon={<CircleChevronLeft />} />
+        <div class="grow" />
+        {state?.sessionId && <NavIcon href={ROUTES.newPost(city)} tooltip="New Post" icon={<CirclePlus />} />}
+      </ActionRow>
       {posts.map((post) => <PostPreview key={post.id} post={post} />)}
     </div>
   );

@@ -17,7 +17,7 @@ export default function Layout({ Component, state, data }: PageProps<Data, Sessi
       </div>
       <footer className="footer footer-center bg-base-300 p-2 font-mono text-base-content">
         <aside>
-          <p>Copyright © 2024 - borjessons.dev</p>
+          <p>borjessons.dev</p>
         </aside>
       </footer>
     </div>
