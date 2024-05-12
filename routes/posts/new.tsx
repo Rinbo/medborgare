@@ -37,8 +37,6 @@ export const handler: Handlers = withAuth({
     const city = getSearchParams(req, "city");
     if (!city) return redirect("/");
 
-    ctx.render();
-
     const formData = await req.formData();
     const validation = schema.safeParse(Object.fromEntries(formData));
     if (!validation.success) {
@@ -53,7 +51,7 @@ export const handler: Handlers = withAuth({
 
     await insertNewPost({ title, body, city, userId, userName });
 
-    return redirect(ROUTES.city(city), {});
+    return redirect(ROUTES.city(city));
   },
 });
 

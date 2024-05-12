@@ -8,7 +8,6 @@ import { ROUTES } from "route-utils";
 type Data = { flash: FlashMessage } | undefined;
 
 export default function Layout({ Component, state, data }: PageProps<Data, OptionalSessionState>) {
-  console.log(data);
   return (
     <div class="flex h-screen w-screen flex-col">
       {data?.flash && <Flash flash={data.flash} />}
