@@ -1,19 +1,19 @@
 import { RouteContext } from "$fresh/server.ts";
-import { Post } from "kv/posts.ts";
-import { SessionState } from "types";
+import { findByCity, Post } from "kv/posts.ts";
+import { OptionalSessionState } from "types";
 import { ROUTES } from "route-utils";
 import NavIcon from "components/nav/NavIcon.tsx";
 import { CircleChevronLeft, CirclePlus } from "lucide-preact";
 import ActionRow from "components/nav/ActionRow.tsx";
 
-export default async function City(_req: Request, ctx: RouteContext<undefined, SessionState | undefined>) {
-  const posts: Post[] = JSON.parse(await Deno.readTextFile("./static/posts.json"));
+export default async function City(_req: Request, ctx: RouteContext<void, OptionalSessionState>) {
   const city = decodeURIComponent(ctx.params.city);
+  const posts: Post[] = await findByCity(city);
   const state = ctx.state;
 
   return (
-    <div class="mx-auto w-full max-w-3xl">
-      <h1 class="mx-1 mb-1 rounded-lg border p-2 text-center font-mono text-4xl font-semibold uppercase">
+    <div class="mx-auto w-full max-w-3xl p-1">
+      <h1 class="mb-1 rounded-lg border p-2 text-center font-mono text-4xl font-semibold uppercase">
         {city}
       </h1>
       <ActionRow>
@@ -29,7 +29,7 @@ export default async function City(_req: Request, ctx: RouteContext<undefined, S
 function PostPreview({ post }: { post: Post }) {
   return (
     <a href={ROUTES.post(post.id)}>
-      <div class="mx-1 my-2 rounded-xl border p-4 hover:bg-base-200">
+      <div class="my-2 rounded-xl border p-4 hover:bg-base-200">
         <h5 class="upp mb-2 text-2xl font-bold tracking-tight">{post.title}</h5>
         <p class="mb-1 text-xs font-normal">
           <span class="font-semibold text-primary">{post.userName}</span>

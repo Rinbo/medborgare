@@ -1,6 +1,6 @@
 const post = (id: string) => `${ROUTES.posts}/${id}`;
 const editPost = (id: string) => `${ROUTES.posts}/${id}/edit`;
-const newPost = (city?: string) => `${ROUTES.posts}/new${city ? "?=" + city : ""}`;
+const newPost = (city?: string) => `${ROUTES.posts}/new${city ? "?city=" + city : ""}`;
 const city = (city: string) => `/k/${city}`;
 
 export const ROUTES = {

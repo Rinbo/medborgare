@@ -1,3 +1,4 @@
+import { ZodError } from "z";
 import { FlashStatus } from "../islands/Flash.tsx";
 
 export function flash(message: string, status?: FlashStatus) {
@@ -15,4 +16,8 @@ export function includesIgnoreCase(firstString: string, secondString: string): b
 
 export function isBlankString(string: string | null | undefined) {
   return !string || string.trim().length === 0;
+}
+
+export function flattenZodErrors(error: ZodError) {
+  return error.flatten().fieldErrors;
 }

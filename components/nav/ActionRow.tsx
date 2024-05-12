@@ -6,7 +6,7 @@ type Props = {
 
 export default function ActionRow(props: Props) {
   return (
-    <nav class="mx-1 rounded-lg border">
+    <nav class="rounded-lg border">
       <ul class="menu menu-horizontal menu-xs flex">
         {props.children}
       </ul>

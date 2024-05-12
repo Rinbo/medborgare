@@ -12,6 +12,7 @@ import * as $k_city_ from "./routes/k/[city].tsx";
 import * as $login from "./routes/login.tsx";
 import * as $logout from "./routes/logout.tsx";
 import * as $posts_id_index from "./routes/posts/[id]/index.tsx";
+import * as $posts_new from "./routes/posts/new.tsx";
 import * as $CitySearch from "./islands/CitySearch.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $Flash from "./islands/Flash.tsx";
@@ -29,6 +30,7 @@ const manifest = {
     "./routes/login.tsx": $login,
     "./routes/logout.tsx": $logout,
     "./routes/posts/[id]/index.tsx": $posts_id_index,
+    "./routes/posts/new.tsx": $posts_new,
   },
   islands: {
     "./islands/CitySearch.tsx": $CitySearch,

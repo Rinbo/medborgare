@@ -3,20 +3,6 @@ import { monotonicFactory } from "https://deno.land/x/ulid@v0.3.0/mod.ts";
 const ulid = monotonicFactory();
 const kv = await Deno.openKv();
 
-/*
-Posts must belong to a city
-Posts must have an author
-Post Author must be scrubbable, ie if the user is deleted his name in the post must be changed to "Unknown" or "Former User" or something
-Posts must be sortable by date
-Posts should have some type of popularity ranking (right?)
-Posts can have have comments
-
-I might have to make a service for these kind of aggregate service layer for integrating with posts
-
-It seems to me we are going to need a relational database for this. There will be so much duplication of data otherwise
-and frankly hard to manage
-*/
-
 export type Post = {
   id: string;
   city: string;

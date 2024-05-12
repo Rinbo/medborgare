@@ -1,13 +1,14 @@
 import { PageProps } from "$fresh/server.ts";
 import { Globe, Landmark } from "lucide-preact";
-import { SessionState } from "types";
+import { OptionalSessionState } from "types";
 import Flash, { FlashMessage } from "../islands/Flash.tsx";
 import { LogoutButton } from "./logout.tsx";
 import { ROUTES } from "route-utils";
 
 type Data = { flash: FlashMessage } | undefined;
 
-export default function Layout({ Component, state, data }: PageProps<Data, SessionState | undefined>) {
+export default function Layout({ Component, state, data }: PageProps<Data, OptionalSessionState>) {
+  console.log(data);
   return (
     <div class="flex h-screen w-screen flex-col">
       {data?.flash && <Flash flash={data.flash} />}
