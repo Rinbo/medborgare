@@ -7,17 +7,19 @@ type Props = {
   label?: string;
   type?: string;
   errors?: string[];
-  setOnFocus?: () => void;
+  setOnFocus?: (e: FocusEvent) => void;
   setOnBlur?: () => void;
+  setOnInput?: (e: InputEvent) => void;
 };
 
-export default function TextInput({ name, value, errors, label, placeholder, type, setOnFocus, setOnBlur }: Props) {
+export default function TextInput({ name, value, errors, label, placeholder, type, setOnFocus, setOnBlur, setOnInput }: Props) {
   return (
     <div>
       {label && <label for={name} class="label label-text">{label}</label>}
       <input
-        onFocus={setOnFocus ? () => setOnFocus() : undefined}
+        onFocus={setOnFocus ? (e) => setOnFocus(e) : undefined}
         onBlur={setOnBlur ? () => setOnBlur() : undefined}
+        onInput={setOnInput ? (e) => setOnInput(e) : undefined}
         id={name}
         placeholder={placeholder}
         type={type ?? "text"}

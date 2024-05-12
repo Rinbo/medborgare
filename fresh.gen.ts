@@ -16,6 +16,7 @@ import * as $posts_new from "./routes/posts/new.tsx";
 import * as $CitySearch from "./islands/CitySearch.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $Flash from "./islands/Flash.tsx";
+import * as $forms_PostForm from "./islands/forms/PostForm.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -36,6 +37,7 @@ const manifest = {
     "./islands/CitySearch.tsx": $CitySearch,
     "./islands/Counter.tsx": $Counter,
     "./islands/Flash.tsx": $Flash,
+    "./islands/forms/PostForm.tsx": $forms_PostForm,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

@@ -14,3 +14,5 @@ export type InputEvent = JSX.TargetedInputEvent<HTMLInputElement>;
 export type KeyboardEvent = JSX.TargetedKeyboardEvent<HTMLFormElement>;
 export type FormSubmitEvent = JSX.TargetedSubmitEvent<HTMLFormElement>;
 export type TargetedEvent = JSX.TargetedEvent<HTMLFormElement, Event>;
+export type FocusEvent = JSX.TargetedFocusEvent<HTMLInputElement>;
+export type FocusAreaEvent = JSX.TargetedFocusEvent<HTMLTextAreaElement>;
