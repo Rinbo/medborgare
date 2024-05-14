@@ -42,6 +42,10 @@ export async function findByUserId(userId: string, limit?: number) {
   return await findByPrefix([POSTS_BY_USER_ID, userId], limit);
 }
 
+export async function findById(id: string) {
+  return (await kv.get<Post>([POSTS, id])).value;
+}
+
 async function insertPost(post: Post) {
   return await kv.atomic()
     .set(postsById(post), post)

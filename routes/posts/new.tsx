@@ -5,11 +5,12 @@ import { insertNewPost } from "kv/posts.ts";
 import { Session } from "kv/sessions.ts";
 import { ROUTES } from "route-utils";
 import PostForm, { EMPTY_POST, PostFormData, schema } from "../../islands/forms/PostForm.tsx";
-import { render } from "$fresh/src/server/render.ts";
 
 export const handler: Handlers = withAuth({
   GET(req, ctx) {
-    if (!getSearchParams(req, "city")) return redirect("/");
+    const city = getSearchParams(req, "city");
+    if (!city) return redirect("/");
+
     return ctx.render({ formData: EMPTY_POST });
   },
   async POST(req, ctx) {
@@ -17,7 +18,9 @@ export const handler: Handlers = withAuth({
     if (!city) return redirect("/");
 
     const formData = await req.formData();
+
     const validation = schema.safeParse(Object.fromEntries(formData));
+
     if (!validation.success) {
       return ctx.render({ formData, errors: flattenZodErrors(validation.error), ...flash("Felaktig data. Kontrollera fälten", "error") }, {
         status: 400,
@@ -30,7 +33,7 @@ export const handler: Handlers = withAuth({
 
     await insertNewPost({ title, body, city, userId, userName });
 
-    return ctx.render({ formData, redirectUrl: ROUTES.city(city) });
+    return redirect(ROUTES.city(city));
   },
 });
 

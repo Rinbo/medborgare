@@ -1,12 +1,11 @@
 import { RouteContext } from "$fresh/server.ts";
-import { Post } from "kv/posts.ts";
+import { findById } from "kv/posts.ts";
 import ActionRow from "components/nav/ActionRow.tsx";
 import NavIcon from "components/nav/NavIcon.tsx";
 import { CircleChevronLeft } from "lucide-preact";
 
 export default async function MyPage(_req: Request, ctx: RouteContext) {
-  const posts: Post[] = JSON.parse(await Deno.readTextFile("./static/posts.json"));
-  const post = posts.find((p) => p.id === ctx.params.id);
+  const post = await findById(ctx.params.id);
 
   if (!post) return ctx.renderNotFound();
 
