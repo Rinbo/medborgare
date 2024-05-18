@@ -3,6 +3,7 @@ import { FlashMessage } from "../Flash.tsx";
 import TextInput from "components/form/TextInput.tsx";
 import TextArea from "components/form/TextArea.tsx";
 import { useState } from "preact/hooks";
+import { ROUTES } from "route-utils";
 
 export const EMPTY_POST: PostFields = {
   title: "",
@@ -19,6 +20,7 @@ type PostFormErrors = { title: string[]; body: string[] };
 
 export type PostFormData = {
   formData: PostFields;
+  city: string;
   errors?: PostFormErrors;
   flash?: FlashMessage;
 };
@@ -28,7 +30,7 @@ export const schema = z.object({
   body: z.string().min(1),
 });
 
-export default function PostForm({ formData, errors }: PostFormData) {
+export default function PostForm({ formData, errors, city }: PostFormData) {
   const [formErrors, setFormErrors] = useState<PostFormErrors>(errors ?? EMPTY_FORM_ERRORS);
   const [values, setValues] = useState(formData);
 
@@ -60,7 +62,10 @@ export default function PostForm({ formData, errors }: PostFormData) {
         setOnFocus={onFocus}
         setOnInput={onInput}
       />
-      <button class="btn btn-primary">Skicka</button>
+      <div>
+        <a href={ROUTES.city(city)} type="button" class="btn btn-ghost float-start">Cancel</a>
+        <button type="submit" class="btn btn-primary float-end">Skicka</button>
+      </div>
     </form>
   );
 }

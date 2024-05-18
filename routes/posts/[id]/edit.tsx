@@ -1,10 +1,10 @@
-import { Handlers, PageProps } from "$fresh/server.ts";
+import { Handlers } from "$fresh/server.ts";
 import { getSearchParams, redirect, withAuth } from "http-utils";
 import { createFlash, flattenZodErrors } from "misc-utils";
 import { insertNewPost } from "kv/posts.ts";
 import { Session } from "kv/sessions.ts";
 import { ROUTES } from "route-utils";
-import PostForm, { EMPTY_POST, PostFormData, schema } from "../../islands/forms/PostForm.tsx";
+import PostForm, { EMPTY_POST, PostFormData, schema } from "../../../islands/forms/PostForm.tsx";
 
 export const handler: Handlers<PostFormData> = withAuth({
   GET(req, ctx) {
@@ -38,11 +38,6 @@ export const handler: Handlers<PostFormData> = withAuth({
   },
 });
 
-export default function NewPost(props: PageProps<PostFormData>) {
-  return (
-    <div class="mx-auto max-w-lg p-2">
-      <h1 class="mb-4 text-center text-3xl uppercase">Nytt inlägg</h1>
-      <PostForm {...props.data} />
-    </div>
-  );
+export default function EditPost() {
+  return <div>EDIT</div>;
 }

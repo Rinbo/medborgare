@@ -9,8 +9,10 @@ import * as $_middleware from "./routes/_middleware.ts";
 import * as $api_k_search from "./routes/api/k-search.ts";
 import * as $index from "./routes/index.tsx";
 import * as $k_city_ from "./routes/k/[city].tsx";
+import * as $k_middleware from "./routes/k/_middleware.ts";
 import * as $login from "./routes/login.tsx";
 import * as $logout from "./routes/logout.tsx";
+import * as $posts_id_edit from "./routes/posts/[id]/edit.tsx";
 import * as $posts_id_index from "./routes/posts/[id]/index.tsx";
 import * as $posts_new from "./routes/posts/new.tsx";
 import * as $CitySearch from "./islands/CitySearch.tsx";
@@ -28,8 +30,10 @@ const manifest = {
     "./routes/api/k-search.ts": $api_k_search,
     "./routes/index.tsx": $index,
     "./routes/k/[city].tsx": $k_city_,
+    "./routes/k/_middleware.ts": $k_middleware,
     "./routes/login.tsx": $login,
     "./routes/logout.tsx": $logout,
+    "./routes/posts/[id]/edit.tsx": $posts_id_edit,
     "./routes/posts/[id]/index.tsx": $posts_id_index,
     "./routes/posts/new.tsx": $posts_new,
   },

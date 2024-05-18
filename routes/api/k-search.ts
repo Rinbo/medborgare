@@ -1,11 +1,9 @@
 import { Handlers } from "$fresh/server.ts";
 import { getSearchParams, json } from "http-utils";
-import { arrayIsEmpty, includesIgnoreCase, isBlankString } from "misc-utils";
-
-export type City = { name: string; province: string };
+import { includesIgnoreCase, isBlankString } from "misc-utils";
+import { getCities } from "../../utils/city-cache.ts";
 
 const RESULT_LIMIT = 10;
-let cities: City[] = [];
 
 export const handler: Handlers = {
   async GET(req, _ctx) {
@@ -13,10 +11,7 @@ export const handler: Handlers = {
 
     if (isBlankString(query)) return json([], 200);
 
-    if (arrayIsEmpty(cities)) {
-      const rawCities = await Deno.readTextFile("./static/cities.json");
-      cities = JSON.parse(rawCities);
-    }
+    const cities = await getCities();
 
     const result = cities
       .filter((city) => includesIgnoreCase(city.name, query))
