@@ -35,7 +35,7 @@ export async function insertNewPost(newPost: NewPost) {
 }
 
 export async function findByCity(city: string, limit?: number) {
-  return await findByPrefix([POSTS_BY_CITY, city], limit);
+  return await findByPrefix([POSTS_BY_CITY, city.toLowerCase()], limit);
 }
 
 export async function findByUserId(userId: string, limit?: number) {
@@ -71,7 +71,7 @@ function createPost({ city, title, body, userName, userId }: NewPost): Post {
 
   return {
     id: ulid(),
-    city,
+    city: city.toLowerCase(),
     title,
     body,
     userName,

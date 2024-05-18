@@ -8,7 +8,7 @@ import * as $_layout from "./routes/_layout.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
 import * as $api_k_search from "./routes/api/k-search.ts";
 import * as $index from "./routes/index.tsx";
-import * as $k_city_ from "./routes/k/[city].tsx";
+import * as $k_city_index from "./routes/k/[city]/index.tsx";
 import * as $k_middleware from "./routes/k/_middleware.ts";
 import * as $login from "./routes/login.tsx";
 import * as $logout from "./routes/logout.tsx";
@@ -29,7 +29,7 @@ const manifest = {
     "./routes/_middleware.ts": $_middleware,
     "./routes/api/k-search.ts": $api_k_search,
     "./routes/index.tsx": $index,
-    "./routes/k/[city].tsx": $k_city_,
+    "./routes/k/[city]/index.tsx": $k_city_index,
     "./routes/k/_middleware.ts": $k_middleware,
     "./routes/login.tsx": $login,
     "./routes/logout.tsx": $logout,
