@@ -26,7 +26,7 @@ export default function Flash({ flash: { message, status }, duration }: Props) {
   }, []);
 
   return (
-    <div className={`toast toast-top toast-center ${!show && "hidden"}`}>
+    <div className={`toast toast-bottom toast-right ${!show && "hidden"}`}>
       <div className={`alert ${getStatusClass(status)}`}>
         <span>{message}</span>
       </div>

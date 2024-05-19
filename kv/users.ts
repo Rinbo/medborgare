@@ -14,6 +14,13 @@ const USERS = "users";
 const USERS_BY_EMAIL = "users_by_email";
 
 export async function insertNewUser(newUser: NewUser): Promise<boolean> {
+  const userExistsOption = await findUser(newUser.email.toLowerCase().trim());
+
+  if (userExistsOption.isPresent()) {
+    console.warn("user already exists", newUser);
+    return false;
+  }
+
   return await insertUser(await createUser(newUser));
 }
 
@@ -23,11 +30,22 @@ export async function findUser(email: string): Promise<Optional<User>> {
   return Optional.of(scrubDbUser(dbUserOption.get()));
 }
 
+export async function findAllUsers() {
+  const entries = kv.list<User>({ prefix: [USERS] });
+  const users: User[] = [];
+
+  for await (const entry of entries) {
+    users.push(entry.value);
+  }
+
+  return users;
+}
+
 export async function validatePasswordAndGetUser({ email, password }: { email: string; password: string }): Promise<Optional<User>> {
-  const dbUserOption = await findDbUser(email);
+  const dbUserOption = await findDbUser(email.toLowerCase().trim());
   if (dbUserOption.isEmpty()) return Optional.empty();
   const dbUser = dbUserOption.get();
-  const isPasswordCorrect = (await createSha256Hash(password)) === dbUser.password_hash;
+  const isPasswordCorrect = (await createSha256Hash(password.trim())) === dbUser.password_hash;
   if (!isPasswordCorrect) return Optional.empty();
   return Optional.of(scrubDbUser(dbUser));
 }
@@ -39,6 +57,7 @@ async function findDbUser(email: string): Promise<Optional<DbUser>> {
 
 async function insertUser(user: DbUser): Promise<boolean> {
   const result = await kv.atomic()
+    .check()
     .set([USERS, user.id], user)
     .set([USERS_BY_EMAIL, user.email], user)
     .commit();
@@ -52,8 +71,8 @@ async function createUser({ name, email, password }: NewUser) {
   return {
     id: ulid(),
     name,
-    email,
-    password_hash: await createSha256Hash(password),
+    email: email.toLowerCase().trim(),
+    password_hash: await createSha256Hash(password.trim()),
     createdAt: now,
     updatedAt: now,
   };

@@ -6,8 +6,6 @@ export async function handler(_req: Request, ctx: FreshContext) {
 
   const city = decodeURIComponent(ctx.params.city);
 
-  console.log(city);
-
   const cities = await getCities();
   if (!cities.find((c) => c.name.toLowerCase() === city.toLowerCase())) return ctx.renderNotFound();
 
