@@ -71,6 +71,14 @@ export async function insertPost(post: Post) {
     .commit();
 }
 
+export async function deletePost(post: Post) {
+  return await kv.atomic()
+    .delete(postsById(post))
+    .delete(postsByCity(post))
+    .delete(postsByUserId(post))
+    .commit();
+}
+
 async function findByPrefix(prefix: string[], limit?: number) {
   const entries = kv.list<Post>({ prefix }, { limit: limit ?? 20 });
 

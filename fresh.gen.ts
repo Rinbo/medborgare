@@ -9,6 +9,7 @@ import * as $_middleware from "./routes/_middleware.ts";
 import * as $api_k_search from "./routes/api/k-search.ts";
 import * as $index from "./routes/index.tsx";
 import * as $k_city_index from "./routes/k/[city]/index.tsx";
+import * as $k_city_posts_postId_delete from "./routes/k/[city]/posts/[postId]/delete.ts";
 import * as $k_city_posts_postId_edit from "./routes/k/[city]/posts/[postId]/edit.tsx";
 import * as $k_city_posts_postId_index from "./routes/k/[city]/posts/[postId]/index.tsx";
 import * as $k_city_posts_new from "./routes/k/[city]/posts/new.tsx";
@@ -19,6 +20,7 @@ import * as $CitySearch from "./islands/CitySearch.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $Flash from "./islands/Flash.tsx";
 import * as $forms_PostForm from "./islands/forms/PostForm.tsx";
+import * as $modals_DeleteModal from "./islands/modals/DeleteModal.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -30,6 +32,7 @@ const manifest = {
     "./routes/api/k-search.ts": $api_k_search,
     "./routes/index.tsx": $index,
     "./routes/k/[city]/index.tsx": $k_city_index,
+    "./routes/k/[city]/posts/[postId]/delete.ts": $k_city_posts_postId_delete,
     "./routes/k/[city]/posts/[postId]/edit.tsx": $k_city_posts_postId_edit,
     "./routes/k/[city]/posts/[postId]/index.tsx": $k_city_posts_postId_index,
     "./routes/k/[city]/posts/new.tsx": $k_city_posts_new,
@@ -42,6 +45,7 @@ const manifest = {
     "./islands/Counter.tsx": $Counter,
     "./islands/Flash.tsx": $Flash,
     "./islands/forms/PostForm.tsx": $forms_PostForm,
+    "./islands/modals/DeleteModal.tsx": $modals_DeleteModal,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

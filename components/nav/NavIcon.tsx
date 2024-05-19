@@ -7,7 +7,7 @@ type Props = {
   class?: string;
 };
 
-export default function NavButton(props: Props) {
+export default function NavIcon(props: Props) {
   return (
     <li class={props.class}>
       <a class="tooltip" data-tip={props.tooltip} href={props.href}>

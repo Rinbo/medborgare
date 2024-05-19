@@ -1,6 +1,7 @@
 const cityPath = (city: string) => `/k/${city}`;
 const postPath = (city: string, id: string) => `${cityPath(city)}/posts/${id}`;
 const editPostPath = (city: string, id: string) => postPath(city, id) + "/edit";
+const deletePostPath = (city: string, id: string) => postPath(city, id) + "/delete";
 const newPostPath = (city: string) => cityPath(city) + "/posts/new";
 
 export const ROUTES = {
@@ -12,6 +13,7 @@ export const ROUTES = {
   postPath,
   newPostPath,
   editPostPath,
+  deletePostPath,
 };
 
 export function isMutatingRoute(path: string): boolean {

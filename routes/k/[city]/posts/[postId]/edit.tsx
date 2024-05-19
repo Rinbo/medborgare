@@ -39,7 +39,7 @@ export const handler: Handlers = {
 
     if (!isUpdated) ctx.render({ formData, flash: createFlash("Något gick snett. Kunde inte uppdatera inlägg") });
 
-    return redirect(ROUTES.cityPath(post.city));
+    return redirect(ROUTES.postPath(post.city, post.id));
   },
 };
 

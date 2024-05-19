@@ -63,8 +63,8 @@ export default function PostForm({ formData, errors, city }: PostFormData) {
         setOnInput={onInput}
       />
       <div>
-        <a href={ROUTES.cityPath(city)} type="button" class="btn btn-ghost float-start">Cancel</a>
-        <button type="submit" class="btn btn-primary float-end">Skicka</button>
+        <a href={ROUTES.cityPath(city)} type="button" class="btn btn-ghost btn-outline float-start" tabindex={0}>Cancel</a>
+        <button type="submit" class="btn btn-primary float-end" tabindex={0}>Skicka</button>
       </div>
     </form>
   );
