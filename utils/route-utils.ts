@@ -13,3 +13,7 @@ export const ROUTES = {
   newPostPath,
   editPostPath,
 };
+
+export function isMutatingRoute(path: string): boolean {
+  return new RegExp(/\/(new|delete|edit)\/?$/gm).test(path);
+}

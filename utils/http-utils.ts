@@ -6,7 +6,6 @@ export function getSearchParams(
   name: string,
 ): string | null {
   const url = new URL(req.url);
-  console.log(url);
   return url.searchParams.get(name);
 }
 
@@ -41,4 +40,5 @@ export function withAuth(handler: Handlers): Handlers {
   };
 }
 
-const unauthorizedResponse = (redirect?: string) => new Response("Unauthorized", { status: 401, headers: { Location: redirect ?? "/" } });
+export const unauthorizedResponse = (redirect?: string) =>
+  new Response("Unauthorized", { status: 303, headers: { Location: redirect ?? "/" } });

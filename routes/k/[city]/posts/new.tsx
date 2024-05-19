@@ -1,12 +1,12 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { redirect, withAuth } from "http-utils";
+import { redirect } from "http-utils";
 import { createFlash, flattenZodErrors } from "misc-utils";
 import { insertNewPost } from "kv/posts.ts";
 import { Session } from "kv/sessions.ts";
 import { ROUTES } from "route-utils";
 import PostForm, { EMPTY_POST, PostFormData, schema } from "islands/forms/PostForm.tsx";
 
-export const handler: Handlers<PostFormData> = withAuth({
+export const handler: Handlers = {
   GET(_req, ctx) {
     return ctx.render({ formData: EMPTY_POST, city: ctx.params.city });
   },
@@ -29,7 +29,7 @@ export const handler: Handlers<PostFormData> = withAuth({
 
     return redirect(ROUTES.cityPath(city));
   },
-});
+};
 
 export default function NewPost(props: PageProps<PostFormData>) {
   return (
