@@ -22,6 +22,12 @@ type NewPost = {
   userId: string;
 };
 
+type ExistingPost = {
+  id: string;
+  title: string;
+  body: string;
+};
+
 const POSTS = "posts";
 const POSTS_BY_CITY = "posts_by_city";
 const POSTS_BY_USER_ID = "posts_by_user_id";
@@ -32,6 +38,17 @@ const postsByUserId = (post: Post) => [POSTS_BY_USER_ID, post.userId, post.id];
 
 export async function insertNewPost(newPost: NewPost) {
   return await insertPost(createPost(newPost));
+}
+
+export async function updatePost(existingPost: ExistingPost) {
+  const post = await findById(existingPost.id);
+
+  if (!post) {
+    console.error("attempted to update post that does not exist", existingPost);
+    return false;
+  }
+
+  return insertPost({ ...post, title: existingPost.title, body: existingPost.title, updatedAt: new Date().toUTCString() });
 }
 
 export async function findByCity(city: string, limit?: number) {
@@ -46,7 +63,7 @@ export async function findById(id: string) {
   return (await kv.get<Post>([POSTS, id])).value;
 }
 
-async function insertPost(post: Post) {
+export async function insertPost(post: Post) {
   return await kv.atomic()
     .set(postsById(post), post)
     .set(postsByCity(post), post)

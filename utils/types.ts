@@ -1,7 +1,9 @@
 import { JSX } from "preact/jsx-runtime";
+import { Session } from "kv/sessions.ts";
 
 /* App types */
-export type SessionState = { email: string; name: string; sessionId: string };
+export type SessionState = { email: string; name: string; sessionId: string; userId: string };
+export type MutatingRouteState = SessionState & { session: Session };
 export type OptionalSessionState = SessionState | EmptyObject;
 
 /* Utility types */

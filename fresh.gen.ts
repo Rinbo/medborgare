@@ -9,8 +9,8 @@ import * as $_middleware from "./routes/_middleware.ts";
 import * as $api_k_search from "./routes/api/k-search.ts";
 import * as $index from "./routes/index.tsx";
 import * as $k_city_index from "./routes/k/[city]/index.tsx";
-import * as $k_city_posts_id_edit from "./routes/k/[city]/posts/[id]/edit.tsx";
-import * as $k_city_posts_id_index from "./routes/k/[city]/posts/[id]/index.tsx";
+import * as $k_city_posts_postId_edit from "./routes/k/[city]/posts/[postId]/edit.tsx";
+import * as $k_city_posts_postId_index from "./routes/k/[city]/posts/[postId]/index.tsx";
 import * as $k_city_posts_new from "./routes/k/[city]/posts/new.tsx";
 import * as $k_middleware from "./routes/k/_middleware.ts";
 import * as $login from "./routes/login.tsx";
@@ -30,8 +30,8 @@ const manifest = {
     "./routes/api/k-search.ts": $api_k_search,
     "./routes/index.tsx": $index,
     "./routes/k/[city]/index.tsx": $k_city_index,
-    "./routes/k/[city]/posts/[id]/edit.tsx": $k_city_posts_id_edit,
-    "./routes/k/[city]/posts/[id]/index.tsx": $k_city_posts_id_index,
+    "./routes/k/[city]/posts/[postId]/edit.tsx": $k_city_posts_postId_edit,
+    "./routes/k/[city]/posts/[postId]/index.tsx": $k_city_posts_postId_index,
     "./routes/k/[city]/posts/new.tsx": $k_city_posts_new,
     "./routes/k/_middleware.ts": $k_middleware,
     "./routes/login.tsx": $login,

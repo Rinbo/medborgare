@@ -40,8 +40,8 @@ export function getCookieSession(req: Request): Optional<SessionState> {
   return Optional.ofNullable(JSON.parse(decodeURIComponent(cookieValue)) as SessionState);
 }
 
-function convertToSessionState({ id, name, email }: Session): SessionState {
-  return { sessionId: id, name, email };
+function convertToSessionState({ id, name, email, userId }: Session): SessionState {
+  return { sessionId: id, name, email, userId };
 }
 
 function createCookieOptions(value: string, maxAge: number): CookieOptions {
