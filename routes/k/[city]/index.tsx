@@ -19,7 +19,7 @@ export default async function City(_req: Request, ctx: RouteContext<void, Option
       <ActionRow>
         <NavIcon href="javascript:history.back()" tooltip="Back" icon={<CircleChevronLeft />} />
         <div class="grow" />
-        {state?.sessionId && <NavIcon href={ROUTES.newPost(city)} tooltip="New Post" icon={<CirclePlus />} />}
+        {state?.sessionId && <NavIcon href={ROUTES.newPostPath(city)} tooltip="New Post" icon={<CirclePlus />} />}
       </ActionRow>
       {posts.map((post) => <PostPreview key={post.id} post={post} />)}
     </div>
@@ -28,7 +28,7 @@ export default async function City(_req: Request, ctx: RouteContext<void, Option
 
 function PostPreview({ post }: { post: Post }) {
   return (
-    <a href={ROUTES.post(post.id)}>
+    <a href={ROUTES.postPath(post.city, post.id)}>
       <div class="my-2 rounded-xl border p-4 hover:bg-base-200">
         <h5 class="upp mb-2 text-2xl font-bold tracking-tight">{post.title}</h5>
         <p class="mb-1 text-xs font-normal">

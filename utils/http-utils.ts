@@ -6,6 +6,7 @@ export function getSearchParams(
   name: string,
 ): string | null {
   const url = new URL(req.url);
+  console.log(url);
   return url.searchParams.get(name);
 }
 

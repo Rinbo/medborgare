@@ -4,7 +4,7 @@ import { createFlash, flattenZodErrors } from "misc-utils";
 import { insertNewPost } from "kv/posts.ts";
 import { Session } from "kv/sessions.ts";
 import { ROUTES } from "route-utils";
-import PostForm, { EMPTY_POST, PostFormData, schema } from "../../../islands/forms/PostForm.tsx";
+import PostForm, { EMPTY_POST, PostFormData, schema } from "islands/forms/PostForm.tsx";
 
 export const handler: Handlers<PostFormData> = withAuth({
   GET(req, ctx) {
@@ -34,7 +34,7 @@ export const handler: Handlers<PostFormData> = withAuth({
     const { userId, name: userName } = ctx.state.session as Session;
     await insertNewPost({ title, body, city, userId, userName });
 
-    return redirect(ROUTES.city(city));
+    return redirect(ROUTES.cityPath(city));
   },
 });
 

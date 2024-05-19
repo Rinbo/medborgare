@@ -31,8 +31,8 @@
     "route-utils": "./utils/route-utils.ts",
     "constants": "./utils/constants.ts",
     "types": "./utils/types.ts",
-    "optional": "../utils/optional.ts",
     "kv/": "./kv/",
+    "islands/": "./islands/",
     "z": "https://deno.land/x/zod@v3.22.4/mod.ts"
   },
   "fmt": { "lineWidth": 140 },

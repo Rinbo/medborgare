@@ -35,7 +35,7 @@ export default function CitySearch() {
     event.preventDefault();
 
     if (result && !arrayIsEmpty(result)) {
-      window.location.href = ROUTES.city(result[0].name);
+      window.location.href = ROUTES.cityPath(result[0].name);
     }
   }
 
@@ -73,7 +73,7 @@ interface CityInterface {
 
 function CityResult({ city: { name, province } }: CityInterface) {
   return (
-    <a href={ROUTES.city(name)} class="btn btn-ghost btn-sm flex flex-row flex-nowrap justify-between rounded-sm">
+    <a href={ROUTES.cityPath(name)} class="btn btn-ghost btn-sm flex flex-row flex-nowrap justify-between rounded-sm">
       <span class="overflow-ellipsis whitespace-nowrap">{name}</span>
       <span class="truncate text-xs text-neutral-400">{province}</span>
     </a>

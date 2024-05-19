@@ -44,9 +44,12 @@ export async function findAllUsers() {
 export async function validatePasswordAndGetUser({ email, password }: { email: string; password: string }): Promise<Optional<User>> {
   const dbUserOption = await findDbUser(email.toLowerCase().trim());
   if (dbUserOption.isEmpty()) return Optional.empty();
+
   const dbUser = dbUserOption.get();
+
   const isPasswordCorrect = (await createSha256Hash(password.trim())) === dbUser.password_hash;
   if (!isPasswordCorrect) return Optional.empty();
+
   return Optional.of(scrubDbUser(dbUser));
 }
 

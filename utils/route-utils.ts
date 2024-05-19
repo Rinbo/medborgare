@@ -1,16 +1,15 @@
-const post = (id: string) => `${ROUTES.posts}/${id}`;
-const editPost = (id: string) => `${ROUTES.posts}/${id}/edit`;
-const newPost = (city?: string) => `${ROUTES.posts}/new${city ? "?city=" + city : ""}`;
-const city = (city: string) => `/k/${city}`;
+const cityPath = (city: string) => `/k/${city}`;
+const postPath = (city: string, id: string) => `${cityPath(city)}/posts/${id}`;
+const editPostPath = (city: string, id: string) => postPath(city, id) + "/edit";
+const newPostPath = (city: string) => cityPath(city) + "/posts/new";
 
 export const ROUTES = {
   root: "/",
   logout: "/logout",
   login: "/login",
-  posts: "/posts",
   kSearch: "/api/k-search",
-  city,
-  post,
-  newPost,
-  editPost,
+  cityPath,
+  postPath,
+  newPostPath,
+  editPostPath,
 };
