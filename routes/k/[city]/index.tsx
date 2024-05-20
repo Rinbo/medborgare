@@ -5,6 +5,7 @@ import { ROUTES } from "route-utils";
 import NavIcon from "components/nav/NavIcon.tsx";
 import { CircleChevronLeft, CirclePlus } from "lucide-preact";
 import ActionRow from "components/nav/ActionRow.tsx";
+import PostList from "islands/PostList.tsx";
 
 export default async function City(_req: Request, ctx: RouteContext<void, OptionalSessionState>) {
   const city = decodeURIComponent(ctx.params.city);
@@ -21,26 +22,7 @@ export default async function City(_req: Request, ctx: RouteContext<void, Option
         <div class="grow" />
         {state?.sessionId && <NavIcon href={ROUTES.newPostPath(city)} tooltip="New Post" icon={<CirclePlus />} />}
       </ActionRow>
-      {posts.map((post) => <PostPreview key={post.id} post={post} />)}
+      <PostList initialPosts={posts} />
     </div>
-  );
-}
-
-function PostPreview({ post }: { post: Post }) {
-  return (
-    <a href={ROUTES.postPath(post.city, post.id)}>
-      <div class="my-2 rounded-xl border p-4 hover:bg-base-200">
-        <h5 class="upp mb-2 text-2xl font-bold tracking-tight">{post.title}</h5>
-        <p class="mb-1 text-xs font-normal">
-          <span class="font-semibold text-primary">{post.userName}</span>
-        </p>
-        <p class="mb-2 truncate font-light">
-          {post.body}
-        </p>
-        <p class="text-xs italic text-neutral-content">
-          Posted on {new Date(post.createdAt).toLocaleDateString()}
-        </p>
-      </div>
-    </a>
   );
 }

@@ -80,7 +80,7 @@ export async function deletePost(post: Post) {
 }
 
 async function findByPrefix(prefix: string[], limit?: number) {
-  const entries = kv.list<Post>({ prefix }, { limit: limit ?? 20 });
+  const entries = kv.list<Post>({ prefix }, { limit: limit ?? 2000, reverse: true });
 
   const posts: Post[] = [];
 
