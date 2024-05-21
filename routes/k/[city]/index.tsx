@@ -1,5 +1,5 @@
 import { RouteContext } from "$fresh/server.ts";
-import { findByCity, Post } from "kv/posts.ts";
+import { findByCity, findByCityPaginated, Post } from "kv/posts.ts";
 import { OptionalSessionState } from "types";
 import { ROUTES } from "route-utils";
 import NavIcon from "components/nav/NavIcon.tsx";
@@ -9,7 +9,7 @@ import PostList from "islands/PostList.tsx";
 
 export default async function City(_req: Request, ctx: RouteContext<void, OptionalSessionState>) {
   const city = decodeURIComponent(ctx.params.city);
-  const posts: Post[] = await findByCity(city);
+  const { posts, cursor } = await findByCityPaginated({ city });
   const state = ctx.state;
 
   return (
@@ -22,7 +22,7 @@ export default async function City(_req: Request, ctx: RouteContext<void, Option
         <div class="grow" />
         {state?.sessionId && <NavIcon href={ROUTES.newPostPath(city)} tooltip="New Post" icon={<CirclePlus />} />}
       </ActionRow>
-      <PostList initialPosts={posts} />
+      <PostList initialPosts={posts} cursor={cursor} />
     </div>
   );
 }

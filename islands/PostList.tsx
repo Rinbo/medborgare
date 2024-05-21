@@ -2,7 +2,7 @@ import { useSignal } from "@preact/signals";
 import { Post } from "kv/posts.ts";
 import PostPreview from "components/posts/PostPreview.tsx";
 
-type Props = { initialPosts: Post[] };
+type Props = { initialPosts: Post[]; cursor: string };
 
 export default function PostList({ initialPosts }: Props) {
   const posts = useSignal(initialPosts);
@@ -23,7 +23,7 @@ export default function PostList({ initialPosts }: Props) {
 
   return (
     <div>
-      <button onClick={addToList} class="btn btn-primary m-4 w-full">Add something to list</button>
+      <button onClick={addToList} class="btn btn-primary my-4 w-full">Add something to list</button>
       {posts.value.map((post) => <PostPreview post={post} />)}
     </div>
   );

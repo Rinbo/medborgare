@@ -3,6 +3,14 @@ import { monotonicFactory } from "https://deno.land/x/ulid@v0.3.0/mod.ts";
 const ulid = monotonicFactory();
 const kv = await Deno.openKv();
 
+const DEFAULT_LIMIT = 20;
+
+interface ListOptions {
+  prefix: string[];
+  cursor?: string;
+  limit?: number;
+}
+
 export type Post = {
   id: string;
   city: string;
@@ -52,11 +60,11 @@ export async function updatePost(existingPost: ExistingPost) {
 }
 
 export async function findByCity(city: string, limit?: number) {
-  return await findByPrefix([POSTS_BY_CITY, city.toLowerCase()], limit);
+  return await findByPrefix({ prefix: [POSTS_BY_CITY, city.toLowerCase()], limit });
 }
 
 export async function findByUserId(userId: string, limit?: number) {
-  return await findByPrefix([POSTS_BY_USER_ID, userId], limit);
+  return await findByPrefix({ prefix: [POSTS_BY_USER_ID, userId], limit });
 }
 
 export async function findById(id: string) {
@@ -79,8 +87,20 @@ export async function deletePost(post: Post) {
     .commit();
 }
 
-async function findByPrefix(prefix: string[], limit?: number) {
-  const entries = kv.list<Post>({ prefix }, { limit: limit ?? 2000, reverse: true });
+export async function findByCityPaginated({ city, cursor, limit = DEFAULT_LIMIT }: { city: string; cursor?: string; limit?: number }) {
+  const iter = kv.list<Post>({ prefix: [POSTS_BY_CITY, city.toLowerCase()] }, { limit, cursor, reverse: true });
+
+  const posts = [];
+
+  for await (const post of iter) {
+    posts.push(post.value);
+  }
+
+  return { posts, cursor: iter.cursor };
+}
+
+async function findByPrefix({ prefix, limit = DEFAULT_LIMIT }: ListOptions) {
+  const entries = kv.list<Post>({ prefix }, { limit, reverse: true });
 
   const posts: Post[] = [];
 

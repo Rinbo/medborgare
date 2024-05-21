@@ -5,7 +5,7 @@ import { findUser } from "kv/users.ts";
 
 export const handler: Handlers = {
   async GET(req, _ctx) {
-    if (Deno.env.get("DENO_ENV") !== "local") return new Response("can't do that here", { status: 405 });
+    if (Deno.env.get("DENO_ENV") !== "local") return new Response("can't do that here", { status: 403 });
 
     const user = await findUser("robin.b@outlook.com");
 
