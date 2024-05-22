@@ -22,7 +22,7 @@ export default async function City(_req: Request, ctx: RouteContext<void, Option
         <div class="grow" />
         {state?.sessionId && <NavIcon href={ROUTES.newPostPath(city)} tooltip="New Post" icon={<CirclePlus />} />}
       </ActionRow>
-      <PostList initialPosts={posts} cursor={cursor} />
+      <PostList initialPosts={posts} initialCursor={cursor} city={city} />
     </div>
   );
 }

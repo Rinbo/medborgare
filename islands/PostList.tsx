@@ -1,29 +1,50 @@
 import { useSignal } from "@preact/signals";
 import { Post } from "kv/posts.ts";
 import PostPreview from "components/posts/PostPreview.tsx";
+import { useEffect } from "preact/hooks";
+import { ROUTES } from "route-utils";
 
-type Props = { initialPosts: Post[]; cursor: string };
+const SCROLL_TRIGGER_OFFSET = 800;
 
-export default function PostList({ initialPosts }: Props) {
+type Props = { initialPosts: Post[]; initialCursor: string; city: string };
+
+export default function PostList({ initialPosts, initialCursor, city }: Props) {
   const posts = useSignal(initialPosts);
+  const cursor = useSignal(initialCursor);
+  const wait = useSignal(false);
 
-  function addToList() {
-    const length = posts.value.length;
-    posts.value = [{
-      title: "Added Title " + posts.value.length,
-      body: "Some more body text",
-      updatedAt: "",
-      createdAt: "2024",
-      userId: "123",
-      userName: "Ghost user",
-      city: "arboga",
-      id: "id-" + length,
-    }, ...posts.value];
+  useEffect(() => {
+    globalThis.addEventListener("scroll", onScroll);
+    return () => globalThis.removeEventListener("scroll", onScroll);
+  }, []);
+
+  function onScroll() {
+    (globalThis.scrollY > scrollThreshold()) && !wait.value && cursor.value && fetchMore();
+  }
+
+  function scrollThreshold() {
+    return document.body.scrollHeight - globalThis.innerHeight - SCROLL_TRIGGER_OFFSET;
+  }
+
+  function fetchMore() {
+    wait.value = true;
+    fetch(ROUTES.fetchMorePosts(city, cursor.value), { headers: { ContentType: "application/json" } })
+      .then((res) => res.json())
+      .then((json) => {
+        const data = json.data;
+        cursor.value = data.cursor;
+        posts.value = [...posts.value, ...data.posts];
+        wait.value = false;
+      })
+      .catch((err) => {
+        console.error(err);
+        wait.value = false;
+      });
   }
 
   return (
     <div>
-      <button onClick={addToList} class="btn btn-primary my-4 w-full">Add something to list</button>
+      {wait.value && <span class="loading loading-spinner loading-lg fixed bottom-10 right-10 z-50 text-primary"></span>}
       {posts.value.map((post) => <PostPreview post={post} />)}
     </div>
   );

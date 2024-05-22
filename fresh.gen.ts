@@ -13,7 +13,7 @@ import * as $k_city_index from "./routes/k/[city]/index.tsx";
 import * as $k_city_posts_postId_delete from "./routes/k/[city]/posts/[postId]/delete.ts";
 import * as $k_city_posts_postId_edit from "./routes/k/[city]/posts/[postId]/edit.tsx";
 import * as $k_city_posts_postId_index from "./routes/k/[city]/posts/[postId]/index.tsx";
-import * as $k_city_posts_fetch_posts from "./routes/k/[city]/posts/fetch-posts.ts";
+import * as $k_city_posts_fetch_more from "./routes/k/[city]/posts/fetch-more.ts";
 import * as $k_city_posts_new from "./routes/k/[city]/posts/new.tsx";
 import * as $k_middleware from "./routes/k/_middleware.ts";
 import * as $login from "./routes/login.tsx";
@@ -39,7 +39,7 @@ const manifest = {
     "./routes/k/[city]/posts/[postId]/delete.ts": $k_city_posts_postId_delete,
     "./routes/k/[city]/posts/[postId]/edit.tsx": $k_city_posts_postId_edit,
     "./routes/k/[city]/posts/[postId]/index.tsx": $k_city_posts_postId_index,
-    "./routes/k/[city]/posts/fetch-posts.ts": $k_city_posts_fetch_posts,
+    "./routes/k/[city]/posts/fetch-more.ts": $k_city_posts_fetch_more,
     "./routes/k/[city]/posts/new.tsx": $k_city_posts_new,
     "./routes/k/_middleware.ts": $k_middleware,
     "./routes/login.tsx": $login,
