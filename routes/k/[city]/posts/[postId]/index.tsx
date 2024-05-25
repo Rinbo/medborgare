@@ -6,7 +6,7 @@ import { CircleChevronLeft, Pencil } from "lucide-preact";
 import { SessionState } from "types";
 import { ROUTES } from "route-utils";
 import DeleteModal from "islands/modals/DeleteModal.tsx";
-import { Fragment } from "preact/jsx-runtime";
+import { Fragment } from "preact";
 import PostIsland from "islands/PostIsland.tsx";
 
 export default async function ShowPost(_req: Request, ctx: RouteContext<void, SessionState>) {
@@ -28,7 +28,7 @@ export default async function ShowPost(_req: Request, ctx: RouteContext<void, Se
           </Fragment>
         )}
       </ActionRow>
-      <PostIsland post={post} />
+      <PostIsland initialPost={post} />
     </div>
   );
 }

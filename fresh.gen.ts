@@ -23,6 +23,7 @@ import * as $Counter from "./islands/Counter.tsx";
 import * as $Flash from "./islands/Flash.tsx";
 import * as $PostIsland from "./islands/PostIsland.tsx";
 import * as $PostList from "./islands/PostList.tsx";
+import * as $forms_AutoSizeTextArea from "./islands/forms/AutoSizeTextArea.tsx";
 import * as $forms_PostForm from "./islands/forms/PostForm.tsx";
 import * as $modals_DeleteModal from "./islands/modals/DeleteModal.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -52,6 +53,7 @@ const manifest = {
     "./islands/Flash.tsx": $Flash,
     "./islands/PostIsland.tsx": $PostIsland,
     "./islands/PostList.tsx": $PostList,
+    "./islands/forms/AutoSizeTextArea.tsx": $forms_AutoSizeTextArea,
     "./islands/forms/PostForm.tsx": $forms_PostForm,
     "./islands/modals/DeleteModal.tsx": $modals_DeleteModal,
   },
