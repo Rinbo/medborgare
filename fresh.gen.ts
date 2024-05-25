@@ -21,6 +21,7 @@ import * as $logout from "./routes/logout.tsx";
 import * as $CitySearch from "./islands/CitySearch.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $Flash from "./islands/Flash.tsx";
+import * as $PostIsland from "./islands/PostIsland.tsx";
 import * as $PostList from "./islands/PostList.tsx";
 import * as $forms_PostForm from "./islands/forms/PostForm.tsx";
 import * as $modals_DeleteModal from "./islands/modals/DeleteModal.tsx";
@@ -49,6 +50,7 @@ const manifest = {
     "./islands/CitySearch.tsx": $CitySearch,
     "./islands/Counter.tsx": $Counter,
     "./islands/Flash.tsx": $Flash,
+    "./islands/PostIsland.tsx": $PostIsland,
     "./islands/PostList.tsx": $PostList,
     "./islands/forms/PostForm.tsx": $forms_PostForm,
     "./islands/modals/DeleteModal.tsx": $modals_DeleteModal,

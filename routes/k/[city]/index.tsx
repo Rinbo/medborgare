@@ -1,5 +1,5 @@
 import { RouteContext } from "$fresh/server.ts";
-import { findByCity, findByCityPaginated, Post } from "kv/posts.ts";
+import { findByCityPaginated } from "kv/posts.ts";
 import { OptionalSessionState } from "types";
 import { ROUTES } from "route-utils";
 import NavIcon from "components/nav/NavIcon.tsx";
