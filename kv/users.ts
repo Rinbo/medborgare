@@ -14,13 +14,6 @@ const USERS = "users";
 const USERS_BY_EMAIL = "users_by_email";
 
 export async function insertNewUser(newUser: NewUser): Promise<boolean> {
-  const userExistsOption = await findUser(newUser.email.toLowerCase().trim());
-
-  if (userExistsOption.isPresent()) {
-    console.warn("user already exists", newUser);
-    return false;
-  }
-
   return await insertUser(await createUser(newUser));
 }
 
@@ -59,10 +52,13 @@ async function findDbUser(email: string): Promise<Optional<DbUser>> {
 }
 
 async function insertUser(user: DbUser): Promise<boolean> {
+  const primaryKey = [USERS, user.id];
+  const secondaryKey = [USERS_BY_EMAIL, user.email];
   const result = await kv.atomic()
-    .check()
-    .set([USERS, user.id], user)
-    .set([USERS_BY_EMAIL, user.email], user)
+    .check({ key: primaryKey, versionstamp: null })
+    .check({ key: secondaryKey, versionstamp: null })
+    .set(primaryKey, user)
+    .set(secondaryKey, user)
     .commit();
 
   return result.ok;
