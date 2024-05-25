@@ -18,6 +18,7 @@ export type Post = {
   body: string;
   userName: string;
   userId: string;
+  comments: Comment[];
   createdAt: string;
   updatedAt: string;
 };
@@ -35,6 +36,8 @@ type ExistingPost = {
   title: string;
   body: string;
 };
+
+type Comment = { id: string; postId: string; text: string; userId: string; userName: string; createdAt: string; updatedAt: string };
 
 const POSTS = "posts";
 const POSTS_BY_CITY = "posts_by_city";
@@ -71,12 +74,27 @@ export async function findById(id: string) {
   return (await kv.get<Post>([POSTS, id])).value;
 }
 
+// TODO, should probably add check on the indexes here
 export async function insertPost(post: Post) {
   return await kv.atomic()
     .set(postsById(post), post)
     .set(postsByCity(post), post)
     .set(postsByUserId(post), post)
     .commit();
+}
+
+export async function addComment(comment: Comment) {
+  const post = await findById(comment.postId);
+
+  if (!post) {
+    console.error("unable to in sert comment for postId", comment.postId);
+    return false;
+  }
+
+  post.comments = [...post.comments, comment];
+  const result = await insertPost(post);
+
+  return result.ok;
 }
 
 export async function deletePost(post: Post) {
@@ -121,6 +139,7 @@ function createPost({ city, title, body, userName, userId }: NewPost): Post {
     body,
     userName,
     userId,
+    comments: [],
     createdAt: now,
     updatedAt: now,
   };
