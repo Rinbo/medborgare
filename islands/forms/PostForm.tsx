@@ -59,8 +59,8 @@ export default function PostForm({ formData, errors, city }: PostFormData) {
         value={values.body}
         placeholder="Skriv någonting..."
         errors={formErrors.body}
-        onFocus={onFocus}
-        onInput={onInput}
+        setOnFocus={onFocus}
+        setOnInput={onInput}
       />
       <div>
         <a href={ROUTES.cityPath(city)} type="button" class="btn btn-ghost btn-outline float-start" tabindex={0}>Cancel</a>

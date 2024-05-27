@@ -12,8 +12,11 @@ import PostIsland from "islands/PostIsland.tsx";
 export default async function ShowPost(_req: Request, ctx: RouteContext<void, SessionState>) {
   const post = await findById(ctx.params.postId);
   const userId = ctx.state.userId;
+  const isLoggedIn = !!userId;
 
   if (!post) return ctx.renderNotFound();
+
+  const isMyPost = userId === post.userId;
 
   return (
     <div class="mx-auto flex w-full max-w-3xl flex-col gap-1 p-1">
@@ -28,7 +31,7 @@ export default async function ShowPost(_req: Request, ctx: RouteContext<void, Se
           </Fragment>
         )}
       </ActionRow>
-      <PostIsland initialPost={post} />
+      <PostIsland post={post} userId={userId} isLoggedIn={isLoggedIn} />
     </div>
   );
 }

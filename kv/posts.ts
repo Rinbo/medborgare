@@ -23,6 +23,8 @@ export type Post = {
   updatedAt: string;
 };
 
+export type Comment = { id: string; postId: string; text: string; userId: string; userName: string; createdAt: string; updatedAt: string };
+
 type NewPost = {
   city: string;
   title: string;
@@ -37,7 +39,7 @@ type ExistingPost = {
   body: string;
 };
 
-type Comment = { id: string; postId: string; text: string; userId: string; userName: string; createdAt: string; updatedAt: string };
+type NewComment = Omit<Comment, "createdAt" | "updatedAt" | "id">;
 
 const POSTS = "posts";
 const POSTS_BY_CITY = "posts_by_city";
@@ -87,14 +89,19 @@ export async function addComment(comment: Comment) {
   const post = await findById(comment.postId);
 
   if (!post) {
-    console.error("unable to in sert comment for postId", comment.postId);
+    console.error("unable to insert comment for postId", comment.postId);
     return false;
   }
 
-  post.comments = [...post.comments, comment];
+  post.comments = [...post.comments ?? [], comment];
   const result = await insertPost(post);
 
   return result.ok;
+}
+
+export function buildNewComment(newComment: NewComment) {
+  const now = new Date().toUTCString();
+  return { id: ulid(), createdAt: now, updatedAt: now, ...newComment };
 }
 
 export async function deletePost(post: Post) {
