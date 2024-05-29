@@ -16,8 +16,6 @@ export default async function ShowPost(_req: Request, ctx: RouteContext<void, Se
 
   if (!post) return ctx.renderNotFound();
 
-  const isMyPost = userId === post.userId;
-
   return (
     <div class="mx-auto flex w-full max-w-3xl flex-col gap-1 p-1">
       <h1 class="rounded-md border p-1 text-center text-3xl uppercase">{post.title}</h1>

@@ -99,6 +99,12 @@ export async function addComment(comment: Comment) {
   return result.ok;
 }
 
+export async function deleteComment(post: Post, commentId: string) {
+  post.comments = post.comments.filter((c) => c.id !== commentId);
+  const result = await insertPost(post);
+  return result.ok;
+}
+
 export function buildNewComment(newComment: NewComment) {
   const now = new Date().toUTCString();
   return { id: ulid(), createdAt: now, updatedAt: now, ...newComment };

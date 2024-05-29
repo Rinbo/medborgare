@@ -3,10 +3,11 @@ import { SessionState } from "types";
 import { redirect } from "http-utils";
 import { Lock } from "lucide-preact";
 import { z } from "z";
-import { validatePasswordAndGetUser } from "kv/users.ts";
+import { findUser, insertNewUser, validatePasswordAndGetUser } from "kv/users.ts";
 import { flash } from "misc-utils";
 import { commitSession, createSession } from "session-utils";
 import { ROUTES } from "route-utils";
+import { insertNewPost } from "kv/posts.ts";
 
 const schema = z.object({
   email: z.string().email(),

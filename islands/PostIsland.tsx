@@ -3,6 +3,7 @@ import { Comment, Post } from "kv/posts.ts";
 import AutoSizeTextArea from "islands/forms/AutoSizeTextArea.tsx";
 import { ROUTES } from "route-utils";
 import formatDistanceToNow from "https://deno.land/x/date_fns@v2.22.1/formatDistanceToNow/index.js";
+import DeleteModal from "islands/modals/DeleteModal.tsx";
 
 export default function PostIsland({ post, isLoggedIn }: { post: Post; userId: string; isLoggedIn: boolean }) {
   const comments = useSignal(post.comments ?? []);
@@ -42,12 +43,12 @@ export default function PostIsland({ post, isLoggedIn }: { post: Post; userId: s
         <p class="whitespace-pre-line">{post.body}</p>
       </div>
       {isLoggedIn && <CommentForm onSubmit={onSubmit} />}
-      {comments.value?.map((comment) => <CommentPanel key={comment.id} comment={comment} />)}
+      {comments.value?.map((comment) => <CommentPanel key={comment.id} comment={comment} city={post.city} />)}
     </div>
   );
 }
 
-function CommentPanel({ comment }: { comment: Comment }) {
+function CommentPanel({ comment, city }: { comment: Comment; city: string }) {
   return (
     <div class="flex flex-col gap-1 rounded-md border px-4 py-2">
       <span class="flex flex-row gap-4">
@@ -55,13 +56,16 @@ function CommentPanel({ comment }: { comment: Comment }) {
         <div class="text-xs">{formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}</div>
       </span>
       <div class="whitespace-pre-line">{comment.text}</div>
+      <ul>
+        <DeleteModal action={ROUTES.deleteComment(city, comment.postId, comment.id)} resource="kommentar" />
+      </ul>
     </div>
   );
 }
 
 function CommentForm({ onSubmit }: { onSubmit: (e: SubmitEvent) => void }) {
   return (
-    <form class="rounded-md border px-4 py-2" onSubmit={onSubmit}>
+    <form class="rounded-md border p-4" onSubmit={onSubmit}>
       <AutoSizeTextArea name="text" placeholder="Lägg till en kommentar" rows={1} />
       <button type="submit" tabindex={0} class="btn btn-primary btn-sm float-right my-1">Svara</button>
     </form>
