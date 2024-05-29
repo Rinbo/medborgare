@@ -50,13 +50,15 @@ export default function PostIsland({ post, isLoggedIn }: { post: Post; userId: s
 
 function CommentPanel({ comment, city }: { comment: Comment; city: string }) {
   return (
-    <div class="flex flex-col gap-1 rounded-md border px-4 py-2">
-      <span class="flex flex-row gap-4">
-        <div class="text-xs font-extralight">@{comment.userName}</div>
-        <div class="text-xs">{formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}</div>
-      </span>
-      <div class="whitespace-pre-line">{comment.text}</div>
-      <ul>
+    <div class="flex flex-row items-center gap-1 rounded-md border px-4 py-2">
+      <div class="flex grow flex-col gap-1">
+        <span class="flex flex-row gap-4">
+          <div class="text-xs font-extralight">@{comment.userName}</div>
+          <div class="text-xs">{formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}</div>
+        </span>
+        <div class="whitespace-pre-line">{comment.text}</div>
+      </div>
+      <ul class="menu menu-horizontal menu-xs">
         <DeleteModal action={ROUTES.deleteComment(city, comment.postId, comment.id)} resource="kommentar" />
       </ul>
     </div>
