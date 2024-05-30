@@ -5,16 +5,17 @@ type Props = {
   action: string;
   resource: string;
   message?: string;
+  iconClass?: string;
 };
 
-export default function DeleteModal({ action, resource, message }: Props) {
+export default function DeleteModal({ action, resource, message, iconClass }: Props) {
   const modalRef = useRef<HTMLDialogElement>(null);
 
   return (
     <>
       <li>
-        <button onClick={() => modalRef.current?.showModal()} class="text-warn">
-          <Trash />
+        <button onClick={() => modalRef.current?.showModal()}>
+          <Trash class={iconClass} />
         </button>
       </li>
       <dialog class="modal" ref={modalRef}>

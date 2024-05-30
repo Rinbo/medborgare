@@ -4,7 +4,7 @@ const editPostPath = (city: string, id: string) => postPath(city, id) + "/edit";
 const deletePostPath = (city: string, id: string) => postPath(city, id) + "/delete";
 const newPostPath = (city: string) => cityPath(city) + "/posts/new";
 const fetchMorePosts = (city: string, cursor: string) => cityPath(city) + `/posts/fetch-more?cursor=${cursor}`;
-const addComment = (city: string, postId: string) => postPath(city, postId) + "/comments/new";
+const newComment = (city: string, postId: string) => postPath(city, postId) + "/comments/new";
 const deleteComment = (city: string, postId: string, commentId: string) => postPath(city, postId) + `/comments/${commentId}/delete`;
 
 export const ROUTES = {
@@ -18,7 +18,7 @@ export const ROUTES = {
   editPostPath,
   deletePostPath,
   fetchMorePosts,
-  addComment,
+  newComment,
   deleteComment,
 };
 
