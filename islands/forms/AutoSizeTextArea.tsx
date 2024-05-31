@@ -1,4 +1,4 @@
-import { useRef } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 import { arrayIsEmpty } from "misc-utils";
 
 type Props = {
@@ -11,6 +11,10 @@ type Props = {
 
 export default function AutoSizeTextArea({ name, value, placeholder, rows, errors }: Props) {
   const ref = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    ref.current && (ref.current.style.height = `${ref.current.scrollHeight}px`);
+  }, []);
 
   function onInput() {
     ref.current && (ref.current.style.height = "inherit");

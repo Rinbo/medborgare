@@ -5,6 +5,8 @@ import { Pencil } from "lucide-preact";
 import { ROUTES } from "route-utils";
 import formatDistanceToNow from "https://deno.land/x/date_fns@v2.22.1/formatDistanceToNow/index.js";
 import DeleteModal from "islands/modals/DeleteModal.tsx";
+import { ComponentChildren } from "https://esm.sh/v128/preact@10.19.6/src/index.js";
+import { useState } from "preact/hooks";
 
 export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; userId: string; isLoggedIn: boolean }) {
   const comments = useSignal(post.comments ?? []);
@@ -44,17 +46,18 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
         <p class="whitespace-pre-line">{post.body}</p>
       </div>
       {isLoggedIn && <CommentForm onSubmit={onSubmit} />}
-      {comments.value?.map((comment) => <CommentPanel key={comment.id} comment={comment} city={post.city} userId={userId} />)}
+      {comments.value.map((comment) =>
+        comment.userId === userId
+          ? <MutableCommentPanel key={comment.id} comment={comment} city={post.city} />
+          : <CommentPanel key={comment.id} comment={comment} />
+      )}
     </div>
   );
 }
 
-// TODO Make another component called EditableComment and only render it conditionally above if this is user's comment
-// Then call this commentPanel in that component if not in edit mode
-// Make Resizable area take initial height as parameter and if there should be a cancel button, and the name of "save" button
-function CommentPanel({ comment, city, userId }: { comment: Comment; city: string; userId: string }) {
+function MutableCommentPanel({ comment, city }: { comment: Comment; city: string }) {
   const commentSignal = useSignal(comment);
-  const editMode = useSignal(false);
+  const [editMode, setEditMode] = useState(false);
 
   function onSubmit(e: SubmitEvent) {
     e.preventDefault();
@@ -71,42 +74,67 @@ function CommentPanel({ comment, city, userId }: { comment: Comment; city: strin
       .then((json) => {
         target.reset();
         commentSignal.value = json.comment;
-        editMode.value = false;
+        setEditMode(false);
       })
       .catch((err) => {
         console.error(err);
-        editMode.value = false;
+        setEditMode(false);
       });
   }
 
-  if (editMode.value) return <CommentForm onSubmit={onSubmit} initialText={comment.text} />;
+  if (editMode) {
+    return (
+      <CommentForm
+        onSubmit={onSubmit}
+        initialText={comment.text}
+        buttonTitle="Spara"
+        cancelCallback={() => setEditMode(false)}
+      />
+    );
+  }
 
+  return (
+    <CommentPanel comment={commentSignal.value}>
+      <ul class="flex flex-row gap-2">
+        <li>
+          <button onClick={() => setEditMode(true)}>
+            <Pencil class="w-5" />
+          </button>
+        </li>
+        <DeleteModal action={ROUTES.deleteComment(city, comment.postId, comment.id)} resource="kommentar" iconClass="w-5" />
+      </ul>
+    </CommentPanel>
+  );
+}
+
+function CommentPanel({ comment, children }: { comment: Comment; children?: ComponentChildren }) {
   return (
     <div class="flex flex-col gap-1 rounded-md border px-4 py-2">
       <span class="flex flex-row gap-4">
         <div class="text-xs font-extralight">@{comment.userName}</div>
         <div class="grow text-xs">{formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}</div>
-        {userId === comment.userId && (
-          <ul class="flex flex-row gap-2">
-            <li>
-              <button onClick={() => (editMode.value = true)}>
-                <Pencil class="w-5" />
-              </button>
-            </li>
-            <DeleteModal action={ROUTES.deleteComment(city, comment.postId, comment.id)} resource="kommentar" iconClass="w-5" />
-          </ul>
-        )}
+        {children}
       </span>
       <div class="whitespace-pre-line">{comment.text}</div>
     </div>
   );
 }
 
-function CommentForm({ onSubmit, initialText }: { onSubmit: (e: SubmitEvent) => void; initialText?: string }) {
+function CommentForm(
+  { onSubmit, initialText, cancelCallback, buttonTitle }: {
+    onSubmit: (e: SubmitEvent) => void;
+    initialText?: string;
+    cancelCallback?: () => void;
+    buttonTitle?: string;
+  },
+) {
   return (
     <form class="rounded-md border p-4" onSubmit={onSubmit}>
       <AutoSizeTextArea name="text" value={initialText} placeholder="Lägg till en kommentar" rows={1} />
-      <button type="submit" tabindex={0} class="btn btn-primary btn-sm float-right my-1">Svara</button>
+      <div class="my-1 flex flex-row justify-end gap-2">
+        {cancelCallback && <button type="button" onClick={cancelCallback} class="btn btn-outline btn-sm">Avbryt</button>}
+        <button type="submit" tabindex={0} class="btn btn-primary btn-sm">{buttonTitle ?? "Skicka"}</button>
+      </div>
     </form>
   );
 }
