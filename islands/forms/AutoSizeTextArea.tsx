@@ -3,13 +3,13 @@ import { arrayIsEmpty } from "misc-utils";
 
 type Props = {
   name: string;
-  value?: string;
+  defaultValue?: string;
   rows?: number;
   placeholder?: string;
   errors?: string[];
 };
 
-export default function AutoSizeTextArea({ name, value, placeholder, rows, errors }: Props) {
+export default function AutoSizeTextArea({ name, defaultValue, placeholder, rows, errors }: Props) {
   const ref = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function AutoSizeTextArea({ name, value, placeholder, rows, error
       <textarea
         id={name}
         ref={ref}
-        value={value ?? ""}
+        defaultValue={defaultValue ?? ""}
         rows={rows ?? 10}
         placeholder={placeholder}
         name={name}

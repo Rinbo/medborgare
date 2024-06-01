@@ -18,7 +18,7 @@ export default async function City(_req: Request, ctx: RouteContext<void, Option
         {city}
       </h1>
       <ActionRow>
-        <NavIcon href="javascript:history.back()" tooltip="Back" icon={<CircleChevronLeft />} />
+        <NavIcon href="/" tooltip="Back" icon={<CircleChevronLeft />} />
         <div class="grow" />
         {state?.sessionId && <NavIcon href={ROUTES.newPostPath(city)} tooltip="New Post" icon={<CirclePlus />} />}
       </ActionRow>

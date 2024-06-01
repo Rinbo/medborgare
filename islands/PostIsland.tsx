@@ -5,7 +5,7 @@ import { Pencil } from "lucide-preact";
 import { ROUTES } from "route-utils";
 import formatDistanceToNow from "https://deno.land/x/date_fns@v2.22.1/formatDistanceToNow/index.js";
 import DeleteModal from "islands/modals/DeleteModal.tsx";
-import { ComponentChildren } from "https://esm.sh/v128/preact@10.19.6/src/index.js";
+import { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import Spinner from "components/Spinner.tsx";
 
@@ -27,9 +27,7 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
     const formData = new FormData(target);
     loading.value = true;
 
-    // create comment here instead and optimistically update it. Lots of information is required though
-    // stuff that I usually get easily access to serverside
-
+    // TODO consider optimistic adding of comments
     fetch(ROUTES.newComment(post.city, post.id), {
       method: "post",
       body: formData,
@@ -136,18 +134,18 @@ function CommentPanel({ comment, children }: { comment: Comment; children?: Comp
   );
 }
 
-function CommentForm(
-  { onSubmit, loading, initialText, cancelCallback, buttonTitle }: {
-    onSubmit: (e: SubmitEvent) => void;
-    loading: boolean;
-    initialText?: string;
-    cancelCallback?: () => void;
-    buttonTitle?: string;
-  },
-) {
+type CommentFormProps = {
+  onSubmit: (e: SubmitEvent) => void;
+  loading: boolean;
+  initialText?: string;
+  cancelCallback?: () => void;
+  buttonTitle?: string;
+};
+
+function CommentForm({ onSubmit, loading, initialText, cancelCallback, buttonTitle }: CommentFormProps) {
   return (
     <form class="rounded-md border p-4" onSubmit={onSubmit}>
-      <AutoSizeTextArea name="text" value={initialText} placeholder="Lägg till en kommentar" rows={1} />
+      <AutoSizeTextArea name="text" defaultValue={initialText} placeholder="Lägg till en kommentar" rows={1} />
       <div class="my-1 flex flex-row justify-end gap-2">
         {cancelCallback && <button type="button" onClick={cancelCallback} class="btn btn-outline btn-sm">Avbryt</button>}
         <button disabled={loading} type="submit" tabindex={0} class="btn btn-primary btn-sm">{buttonTitle ?? "Skicka"}</button>

@@ -20,7 +20,7 @@ export default async function ShowPost(_req: Request, ctx: RouteContext<void, Se
     <div class="mx-auto flex w-full max-w-3xl flex-col gap-1 p-1">
       <h1 class="rounded-md border p-1 text-center text-3xl uppercase">{post.title}</h1>
       <ActionRow>
-        <NavIcon href="javascript:history.back()" tooltip="Back" icon={<CircleChevronLeft />} />
+        <NavIcon href={ROUTES.cityPath(post.city)} tooltip="Back" icon={<CircleChevronLeft />} />
         <div class="grow" />
         {userId === post.userId && (
           <Fragment>
