@@ -4,6 +4,8 @@ import TextInput from "components/form/TextInput.tsx";
 import TextArea from "components/form/TextArea.tsx";
 import { useState } from "preact/hooks";
 import { ROUTES } from "route-utils";
+import { useSignal } from "@preact/signals";
+import Spinner from "components/Spinner.tsx";
 
 export const EMPTY_POST: PostFields = {
   title: "",
@@ -33,6 +35,7 @@ export const schema = z.object({
 export default function PostForm({ formData, errors, city }: PostFormData) {
   const [formErrors, setFormErrors] = useState<PostFormErrors>(errors ?? EMPTY_FORM_ERRORS);
   const [values, setValues] = useState(formData);
+  const loading = useSignal(false);
 
   function onFocus(e: FocusEvent) {
     const target = e.target as HTMLFormElement;
@@ -45,7 +48,7 @@ export default function PostForm({ formData, errors, city }: PostFormData) {
   }
 
   return (
-    <form method="post" class="form-control flex flex-col gap-2">
+    <form method="post" class="form-control flex flex-col gap-2" onSubmit={() => (loading.value = true)}>
       <TextInput
         name="title"
         value={values.title}
@@ -64,8 +67,9 @@ export default function PostForm({ formData, errors, city }: PostFormData) {
       />
       <div>
         <a href={ROUTES.cityPath(city)} type="button" class="btn btn-ghost btn-outline float-start" tabindex={0}>Cancel</a>
-        <button type="submit" class="btn btn-primary float-end" tabindex={0}>Skicka</button>
+        <button type="submit" class="btn btn-primary float-end" tabindex={0} disabled={loading.value}>Skicka</button>
       </div>
+      {loading.value && <Spinner />}
     </form>
   );
 }

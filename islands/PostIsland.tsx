@@ -33,7 +33,10 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
       body: formData,
       headers: { ContentType: "application/json" },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error(res.statusText);
+      })
       .then((json) => {
         target.reset();
         comments.value = [...comments.value, json.comment];
@@ -81,7 +84,10 @@ function MutableCommentPanel({ comment, city }: { comment: Comment; city: string
       body: formData,
       headers: { ContentType: "application/json" },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error(res.statusText);
+      })
       .then((json) => {
         target.reset();
         commentSignal.value = json.comment;
@@ -89,9 +95,9 @@ function MutableCommentPanel({ comment, city }: { comment: Comment; city: string
         setEditMode(false);
       })
       .catch((err) => {
-        console.error(err);
-        setEditMode(false);
         loading.value = false;
+        setEditMode(false);
+        console.error(err);
       });
   }
 
@@ -110,11 +116,7 @@ function MutableCommentPanel({ comment, city }: { comment: Comment; city: string
   return (
     <CommentPanel comment={commentSignal.value}>
       <ul class="flex flex-row gap-2">
-        <li>
-          <button onClick={() => setEditMode(true)}>
-            <Pencil class="w-5" />
-          </button>
-        </li>
+        <EditButton callback={() => setEditMode(true)} />
         <DeleteModal action={ROUTES.deleteComment(city, comment.postId, comment.id)} resource="kommentar" iconClass="w-5" />
       </ul>
     </CommentPanel>
@@ -152,5 +154,15 @@ function CommentForm({ onSubmit, loading, initialText, cancelCallback, buttonTit
       </div>
       {loading && <Spinner />}
     </form>
+  );
+}
+
+function EditButton({ callback }: { callback: () => void }) {
+  return (
+    <li>
+      <button onClick={callback}>
+        <Pencil class="w-5" />
+      </button>
+    </li>
   );
 }
