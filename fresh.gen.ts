@@ -11,6 +11,7 @@ import * as $api_populate_city from "./routes/api/populate-city.ts";
 import * as $index from "./routes/index.tsx";
 import * as $k_city_index from "./routes/k/[city]/index.tsx";
 import * as $k_city_posts_postId_comments_commentId_delete from "./routes/k/[city]/posts/[postId]/comments/[commentId]/delete.ts";
+import * as $k_city_posts_postId_comments_commentId_edit from "./routes/k/[city]/posts/[postId]/comments/[commentId]/edit.ts";
 import * as $k_city_posts_postId_comments_new from "./routes/k/[city]/posts/[postId]/comments/new.ts";
 import * as $k_city_posts_postId_delete from "./routes/k/[city]/posts/[postId]/delete.ts";
 import * as $k_city_posts_postId_edit from "./routes/k/[city]/posts/[postId]/edit.tsx";
@@ -41,6 +42,7 @@ const manifest = {
     "./routes/index.tsx": $index,
     "./routes/k/[city]/index.tsx": $k_city_index,
     "./routes/k/[city]/posts/[postId]/comments/[commentId]/delete.ts": $k_city_posts_postId_comments_commentId_delete,
+    "./routes/k/[city]/posts/[postId]/comments/[commentId]/edit.ts": $k_city_posts_postId_comments_commentId_edit,
     "./routes/k/[city]/posts/[postId]/comments/new.ts": $k_city_posts_postId_comments_new,
     "./routes/k/[city]/posts/[postId]/delete.ts": $k_city_posts_postId_delete,
     "./routes/k/[city]/posts/[postId]/edit.tsx": $k_city_posts_postId_edit,

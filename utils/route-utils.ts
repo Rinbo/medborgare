@@ -6,6 +6,7 @@ const newPostPath = (city: string) => cityPath(city) + "/posts/new";
 const fetchMorePosts = (city: string, cursor: string) => cityPath(city) + `/posts/fetch-more?cursor=${cursor}`;
 const newComment = (city: string, postId: string) => postPath(city, postId) + "/comments/new";
 const deleteComment = (city: string, postId: string, commentId: string) => postPath(city, postId) + `/comments/${commentId}/delete`;
+const editComment = (city: string, postId: string, commentId: string) => postPath(city, postId) + `/comments/${commentId}/edit`;
 
 export const ROUTES = {
   root: "/",
@@ -20,6 +21,7 @@ export const ROUTES = {
   fetchMorePosts,
   newComment,
   deleteComment,
+  editComment,
 };
 
 export function isMutatingRoute(path: string): boolean {

@@ -3,6 +3,7 @@ import { Post } from "kv/posts.ts";
 import PostPreview from "components/posts/PostPreview.tsx";
 import { useEffect } from "preact/hooks";
 import { ROUTES } from "route-utils";
+import Spinner from "components/Spinner.tsx";
 
 const SCROLL_TRIGGER_OFFSET = 800;
 
@@ -44,7 +45,7 @@ export default function PostList({ initialPosts, initialCursor, city }: Props) {
 
   return (
     <div>
-      {wait.value && <span class="loading loading-spinner loading-lg fixed bottom-10 right-10 z-50 text-primary"></span>}
+      {wait.value && <Spinner />}
       {posts.value.map((post) => <PostPreview post={post} />)}
     </div>
   );

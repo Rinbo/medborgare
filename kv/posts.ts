@@ -105,6 +105,15 @@ export async function deleteComment(post: Post, commentId: string) {
   return result.ok;
 }
 
+export async function updateComment({ post, comment }: { post: Post; comment: Comment }) {
+  post.comments = post.comments.map((c) => {
+    if (c.id !== comment.id) return c;
+    return comment;
+  });
+  const result = await insertPost(post);
+  return result.ok;
+}
+
 export function buildNewComment(newComment: NewComment) {
   const now = new Date().toUTCString();
   return { id: ulid(), createdAt: now, updatedAt: now, ...newComment };

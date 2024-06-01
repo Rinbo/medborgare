@@ -7,6 +7,7 @@ import formatDistanceToNow from "https://deno.land/x/date_fns@v2.22.1/formatDist
 import DeleteModal from "islands/modals/DeleteModal.tsx";
 import { ComponentChildren } from "https://esm.sh/v128/preact@10.19.6/src/index.js";
 import { useState } from "preact/hooks";
+import Spinner from "components/Spinner.tsx";
 
 export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; userId: string; isLoggedIn: boolean }) {
   const comments = useSignal(post.comments ?? []);
@@ -60,6 +61,7 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
           ? <MutableCommentPanel key={comment.id} comment={comment} city={post.city} />
           : <CommentPanel key={comment.id} comment={comment} />
       )}
+      {loading.value && <Spinner />}
     </div>
   );
 }
@@ -76,7 +78,7 @@ function MutableCommentPanel({ comment, city }: { comment: Comment; city: string
     const formData = new FormData(target);
     loading.value = true;
 
-    fetch(ROUTES.newComment(city, comment.id), {
+    fetch(ROUTES.editComment(city, comment.postId, comment.id), {
       method: "post",
       body: formData,
       headers: { ContentType: "application/json" },
@@ -99,7 +101,7 @@ function MutableCommentPanel({ comment, city }: { comment: Comment; city: string
     return (
       <CommentForm
         onSubmit={onSubmit}
-        initialText={comment.text}
+        initialText={commentSignal.value.text}
         buttonTitle="Spara"
         cancelCallback={() => setEditMode(false)}
         loading={loading.value}
@@ -150,6 +152,7 @@ function CommentForm(
         {cancelCallback && <button type="button" onClick={cancelCallback} class="btn btn-outline btn-sm">Avbryt</button>}
         <button disabled={loading} type="submit" tabindex={0} class="btn btn-primary btn-sm">{buttonTitle ?? "Skicka"}</button>
       </div>
+      {loading && <Spinner />}
     </form>
   );
 }
