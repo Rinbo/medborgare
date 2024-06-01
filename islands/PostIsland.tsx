@@ -10,6 +10,7 @@ import { useState } from "preact/hooks";
 
 export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; userId: string; isLoggedIn: boolean }) {
   const comments = useSignal(post.comments ?? []);
+  const loading = useSignal(false);
 
   function scrollToBottom() {
     globalThis.scrollTo({
@@ -23,6 +24,10 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
 
     const target = e.target as HTMLFormElement;
     const formData = new FormData(target);
+    loading.value = true;
+
+    // create comment here instead and optimistically update it. Lots of information is required though
+    // stuff that I usually get easily access to serverside
 
     fetch(ROUTES.newComment(post.city, post.id), {
       method: "post",
@@ -33,9 +38,13 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
       .then((json) => {
         target.reset();
         comments.value = [...comments.value, json.comment];
-        scrollToBottom();
+        loading.value = false;
       })
-      .catch((err) => console.error(err));
+      .then(() => scrollToBottom())
+      .catch((err) => {
+        loading.value = false;
+        console.error(err);
+      });
   }
 
   return (
@@ -45,7 +54,7 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
         <div class="text-xs italic">{new Date(post.createdAt).toLocaleDateString()}</div>
         <p class="whitespace-pre-line">{post.body}</p>
       </div>
-      {isLoggedIn && <CommentForm onSubmit={onSubmit} />}
+      {isLoggedIn && <CommentForm onSubmit={onSubmit} loading={loading.value} />}
       {comments.value.map((comment) =>
         comment.userId === userId
           ? <MutableCommentPanel key={comment.id} comment={comment} city={post.city} />
@@ -58,12 +67,14 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
 function MutableCommentPanel({ comment, city }: { comment: Comment; city: string }) {
   const commentSignal = useSignal(comment);
   const [editMode, setEditMode] = useState(false);
+  const loading = useSignal(false);
 
   function onSubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const target = e.target as HTMLFormElement;
     const formData = new FormData(target);
+    loading.value = true;
 
     fetch(ROUTES.newComment(city, comment.id), {
       method: "post",
@@ -74,11 +85,13 @@ function MutableCommentPanel({ comment, city }: { comment: Comment; city: string
       .then((json) => {
         target.reset();
         commentSignal.value = json.comment;
+        loading.value = false;
         setEditMode(false);
       })
       .catch((err) => {
         console.error(err);
         setEditMode(false);
+        loading.value = false;
       });
   }
 
@@ -89,6 +102,7 @@ function MutableCommentPanel({ comment, city }: { comment: Comment; city: string
         initialText={comment.text}
         buttonTitle="Spara"
         cancelCallback={() => setEditMode(false)}
+        loading={loading.value}
       />
     );
   }
@@ -121,8 +135,9 @@ function CommentPanel({ comment, children }: { comment: Comment; children?: Comp
 }
 
 function CommentForm(
-  { onSubmit, initialText, cancelCallback, buttonTitle }: {
+  { onSubmit, loading, initialText, cancelCallback, buttonTitle }: {
     onSubmit: (e: SubmitEvent) => void;
+    loading: boolean;
     initialText?: string;
     cancelCallback?: () => void;
     buttonTitle?: string;
@@ -133,7 +148,7 @@ function CommentForm(
       <AutoSizeTextArea name="text" value={initialText} placeholder="Lägg till en kommentar" rows={1} />
       <div class="my-1 flex flex-row justify-end gap-2">
         {cancelCallback && <button type="button" onClick={cancelCallback} class="btn btn-outline btn-sm">Avbryt</button>}
-        <button type="submit" tabindex={0} class="btn btn-primary btn-sm">{buttonTitle ?? "Skicka"}</button>
+        <button disabled={loading} type="submit" tabindex={0} class="btn btn-primary btn-sm">{buttonTitle ?? "Skicka"}</button>
       </div>
     </form>
   );
