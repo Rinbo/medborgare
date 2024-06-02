@@ -21,6 +21,7 @@
     "crypto-utils": "./utils/crypto-utils.ts",
     "daisyui": "npm:daisyui@4.10.3",
     "http-utils": "./utils/http-utils.ts",
+    "flash-cache": "./utils/flash-cache.ts",
     "islands/": "./islands/",
     "kv/": "./kv/",
     "lucide-preact": "npm:lucide-preact@0.363.0",

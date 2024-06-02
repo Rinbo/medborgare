@@ -10,7 +10,6 @@ export const useClientFlash = () => {
   if (!state) throw new Error("Context not correctly set");
 
   const setFlash = (newMessage: FlashMessage) => {
-    console.log("flasher is called!!!");
     state.value = { ...newMessage, shouldDisplay: true };
 
     setTimeout(() => {

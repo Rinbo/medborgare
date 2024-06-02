@@ -7,13 +7,11 @@ import { ROUTES } from "route-utils";
 import ClientFlash from "islands/ClientFlash.tsx";
 import FlashProvider from "islands/FlashProvider.tsx";
 
-type Data = { flash: FlashMessage } | undefined;
-
-export default function Layout({ Component, state, data }: PageProps<Data, OptionalSessionState>) {
+export default function Layout({ Component, state }: PageProps<void, OptionalSessionState>) {
   return (
     <FlashProvider>
       <div class="flex h-screen w-screen flex-col">
-        {data?.flash && <ServerFlash flash={data.flash} />}
+        <ServerFlash flash={state.flash} />
         <ClientFlash />
         <NavBar isLoggedIn={!!state?.sessionId} />
         <div class="grow">

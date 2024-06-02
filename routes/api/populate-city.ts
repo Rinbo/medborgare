@@ -16,7 +16,7 @@ export const handler: Handlers = {
     const city = getSearchParams(req, "city") ?? "arboga";
     const count = parseInt(getSearchParams(req, "count") ?? "200");
 
-    console.log(city, count);
+    console.info(city, count);
 
     for (let i = 0; i < count; i++) {
       await insertNewPost({ body: createBody(), title: "Some Title " + i, userId, userName, city: city.toLowerCase() });

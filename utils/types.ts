@@ -1,8 +1,9 @@
 import { JSX } from "preact/jsx-runtime";
 import { Session } from "kv/sessions.ts";
+import { FlashMessage } from "islands/ServerFlash.tsx";
 
 /* App types */
-export type SessionState = { email: string; name: string; sessionId: string; userId: string };
+export type SessionState = { email: string; name: string; sessionId: string; userId: string; flash?: FlashMessage };
 export type PersistedSessionState = SessionState & { session: Session };
 export type OptionalSessionState = SessionState | EmptyObject;
 

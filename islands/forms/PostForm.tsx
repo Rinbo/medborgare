@@ -17,8 +17,8 @@ const EMPTY_FORM_ERRORS = {
   body: [],
 };
 
-type PostFields = { title: string; body: string };
-type PostFormErrors = { title: string[]; body: string[] };
+export type PostFields = { title?: string; body?: string };
+type PostFormErrors = { body?: string[] | undefined; title?: string[] | undefined };
 
 export type PostFormData = {
   formData: PostFields;
@@ -51,7 +51,7 @@ export default function PostForm({ formData, errors, city }: PostFormData) {
     <form method="post" class="form-control flex flex-col gap-2" onSubmit={() => (loading.value = true)}>
       <TextInput
         name="title"
-        value={values.title}
+        value={values.title ?? ""}
         placeholder="Titel"
         errors={formErrors.title}
         setOnFocus={onFocus}
@@ -59,7 +59,7 @@ export default function PostForm({ formData, errors, city }: PostFormData) {
       />
       <TextArea
         name="body"
-        value={values.body}
+        value={values.body ?? ""}
         placeholder="Skriv någonting..."
         errors={formErrors.body}
         setOnFocus={onFocus}
@@ -69,7 +69,6 @@ export default function PostForm({ formData, errors, city }: PostFormData) {
         <a href={ROUTES.cityPath(city)} type="button" class="btn btn-ghost btn-outline float-start" tabindex={0}>Cancel</a>
         <button type="submit" class="btn btn-primary float-end" tabindex={0} disabled={loading.value}>Skicka</button>
       </div>
-      {loading.value && <Spinner />}
     </form>
   );
 }
