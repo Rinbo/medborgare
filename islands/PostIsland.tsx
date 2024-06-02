@@ -8,10 +8,13 @@ import DeleteModal from "islands/modals/DeleteModal.tsx";
 import { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import Spinner from "components/Spinner.tsx";
+import { useClientFlash } from "../hooks/useClientFlash.ts";
+import { FlashMessage } from "islands/ServerFlash.tsx";
 
 export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; userId: string; isLoggedIn: boolean }) {
   const comments = useSignal(post.comments ?? []);
   const loading = useSignal(false);
+  const { setFlash } = useClientFlash();
 
   function scrollToBottom() {
     globalThis.scrollTo({
@@ -45,6 +48,7 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
       .then(() => scrollToBottom())
       .catch((err) => {
         loading.value = false;
+        setFlash({ message: "Kunde inte skapa en ny kommentar. Kontrollera din inmatning", status: "error" });
         console.error(err);
       });
   }
@@ -59,7 +63,7 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
       {isLoggedIn && <CommentForm onSubmit={onSubmit} loading={loading.value} />}
       {comments.value.map((comment) =>
         comment.userId === userId
-          ? <MutableCommentPanel key={comment.id} comment={comment} city={post.city} />
+          ? <MutableCommentPanel key={comment.id} comment={comment} city={post.city} setFlash={setFlash} />
           : <CommentPanel key={comment.id} comment={comment} />
       )}
       {loading.value && <Spinner />}
@@ -67,7 +71,7 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
   );
 }
 
-function MutableCommentPanel({ comment, city }: { comment: Comment; city: string }) {
+function MutableCommentPanel({ comment, city, setFlash }: { comment: Comment; city: string; setFlash: (fm: FlashMessage) => void }) {
   const commentSignal = useSignal(comment);
   const [editMode, setEditMode] = useState(false);
   const loading = useSignal(false);
@@ -92,11 +96,13 @@ function MutableCommentPanel({ comment, city }: { comment: Comment; city: string
         target.reset();
         commentSignal.value = json.comment;
         loading.value = false;
+        setFlash({ message: "Kommentaren uppdaterades", status: "success" });
         setEditMode(false);
       })
       .catch((err) => {
         loading.value = false;
         setEditMode(false);
+        setFlash({ message: "Kunde inte uppdatera din kommentar. Kontrollera inmatningen", status: "error" });
         console.error(err);
       });
   }

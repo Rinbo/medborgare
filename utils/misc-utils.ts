@@ -1,5 +1,5 @@
 import { ZodError } from "z";
-import { FlashStatus } from "../islands/Flash.tsx";
+import { FlashStatus } from "islands/ServerFlash.tsx";
 
 export function flash(message: string, status?: FlashStatus) {
   return { flash: createFlash(message, status) };

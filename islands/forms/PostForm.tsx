@@ -1,5 +1,5 @@
 import { z } from "z";
-import { FlashMessage } from "../Flash.tsx";
+import { FlashMessage } from "islands/ServerFlash.tsx";
 import TextInput from "components/form/TextInput.tsx";
 import TextArea from "components/form/TextArea.tsx";
 import { useState } from "preact/hooks";

@@ -2,9 +2,10 @@ import { useEffect, useState } from "preact/hooks";
 
 export type FlashMessage = { message: string; status: FlashStatus };
 export type FlashStatus = "error" | "info" | "success";
+
 type Props = { flash: FlashMessage; duration?: number };
 
-function getStatusClass(status: FlashStatus) {
+export function getStatusClass(status: FlashStatus) {
   switch (status) {
     case "error":
       return "alert-error";
@@ -17,7 +18,7 @@ function getStatusClass(status: FlashStatus) {
   }
 }
 
-export default function Flash({ flash: { message, status }, duration }: Props) {
+export default function ServerFlash({ flash: { message, status }, duration }: Props) {
   const [show, setShow] = useState(true);
 
   useEffect(() => {

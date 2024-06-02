@@ -2,7 +2,7 @@ import { Handlers } from "$fresh/server.ts";
 import { json } from "http-utils";
 import { z } from "z";
 import { addComment, buildNewComment, Post } from "kv/posts.ts";
-import { FlashMessage } from "islands/Flash.tsx";
+import { FlashMessage } from "islands/ServerFlash.tsx";
 import { createFlash, flattenZodErrors } from "misc-utils";
 import { PersistedSessionState } from "types";
 

@@ -22,10 +22,12 @@ import * as $k_middleware from "./routes/k/_middleware.ts";
 import * as $login from "./routes/login.tsx";
 import * as $logout from "./routes/logout.tsx";
 import * as $CitySearch from "./islands/CitySearch.tsx";
+import * as $ClientFlash from "./islands/ClientFlash.tsx";
 import * as $Counter from "./islands/Counter.tsx";
-import * as $Flash from "./islands/Flash.tsx";
+import * as $FlashProvider from "./islands/FlashProvider.tsx";
 import * as $PostIsland from "./islands/PostIsland.tsx";
 import * as $PostList from "./islands/PostList.tsx";
+import * as $ServerFlash from "./islands/ServerFlash.tsx";
 import * as $forms_AutoSizeTextArea from "./islands/forms/AutoSizeTextArea.tsx";
 import * as $forms_PostForm from "./islands/forms/PostForm.tsx";
 import * as $modals_DeleteModal from "./islands/modals/DeleteModal.tsx";
@@ -55,10 +57,12 @@ const manifest = {
   },
   islands: {
     "./islands/CitySearch.tsx": $CitySearch,
+    "./islands/ClientFlash.tsx": $ClientFlash,
     "./islands/Counter.tsx": $Counter,
-    "./islands/Flash.tsx": $Flash,
+    "./islands/FlashProvider.tsx": $FlashProvider,
     "./islands/PostIsland.tsx": $PostIsland,
     "./islands/PostList.tsx": $PostList,
+    "./islands/ServerFlash.tsx": $ServerFlash,
     "./islands/forms/AutoSizeTextArea.tsx": $forms_AutoSizeTextArea,
     "./islands/forms/PostForm.tsx": $forms_PostForm,
     "./islands/modals/DeleteModal.tsx": $modals_DeleteModal,

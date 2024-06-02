@@ -1,6 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
 
-// TODO should probably use zod to validate shape of result here
 export const useDebouncedQueryFetch = <T>(path: string, input: string, delay: number): T | null => {
   const [data, setData] = useState<T | null>(null);
 

@@ -1,26 +1,31 @@
 import { PageProps } from "$fresh/server.ts";
 import { Globe, Landmark } from "lucide-preact";
 import { OptionalSessionState } from "types";
-import Flash, { FlashMessage } from "../islands/Flash.tsx";
+import ServerFlash, { FlashMessage } from "../islands/ServerFlash.tsx";
 import { LogoutButton } from "./logout.tsx";
 import { ROUTES } from "route-utils";
+import ClientFlash from "islands/ClientFlash.tsx";
+import FlashProvider from "islands/FlashProvider.tsx";
 
 type Data = { flash: FlashMessage } | undefined;
 
 export default function Layout({ Component, state, data }: PageProps<Data, OptionalSessionState>) {
   return (
-    <div class="flex h-screen w-screen flex-col">
-      {data?.flash && <Flash flash={data.flash} />}
-      <NavBar isLoggedIn={!!state?.sessionId} />
-      <div class="grow">
-        <Component />
+    <FlashProvider>
+      <div class="flex h-screen w-screen flex-col">
+        {data?.flash && <ServerFlash flash={data.flash} />}
+        <ClientFlash />
+        <NavBar isLoggedIn={!!state?.sessionId} />
+        <div class="grow">
+          <Component />
+        </div>
+        <footer className="footer footer-center bg-base-300 p-2 font-mono text-base-content">
+          <aside>
+            <p>borjessons.dev</p>
+          </aside>
+        </footer>
       </div>
-      <footer className="footer footer-center bg-base-300 p-2 font-mono text-base-content">
-        <aside>
-          <p>borjessons.dev</p>
-        </aside>
-      </footer>
-    </div>
+    </FlashProvider>
   );
 }
 

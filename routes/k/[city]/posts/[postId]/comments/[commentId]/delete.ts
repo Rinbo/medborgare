@@ -1,5 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
-import { FlashMessage } from "islands/Flash.tsx";
+import { FlashMessage } from "islands/ServerFlash.tsx";
 import { redirect, unauthorizedResponse } from "http-utils";
 import { findById } from "kv/posts.ts";
 import { PersistedSessionState } from "types";

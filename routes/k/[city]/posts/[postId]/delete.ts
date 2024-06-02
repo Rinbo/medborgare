@@ -4,7 +4,7 @@ import { PersistedSessionState } from "types";
 import { redirect, unauthorizedResponse } from "http-utils";
 import { deletePost } from "kv/posts.ts";
 import { flash } from "misc-utils";
-import { FlashMessage } from "islands/Flash.tsx";
+import { FlashMessage } from "islands/ServerFlash.tsx";
 import { ROUTES } from "route-utils";
 
 export const handler: Handlers<{ flash?: FlashMessage }, PersistedSessionState> = {
