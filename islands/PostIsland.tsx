@@ -44,6 +44,7 @@ export default function PostIsland({ post, isLoggedIn, userId }: { post: Post; u
         target.reset();
         comments.value = [...comments.value, json.comment];
         loading.value = false;
+        setFlash({ message: "Kommentar sparad", status: "success" });
       })
       .then(() => scrollToBottom())
       .catch((err) => {

@@ -3,11 +3,10 @@ import { findById } from "kv/posts.ts";
 import { PersistedSessionState } from "types";
 import { redirect, unauthorizedResponse } from "http-utils";
 import { deletePost } from "kv/posts.ts";
-import { flash } from "misc-utils";
-import { FlashMessage } from "islands/ServerFlash.tsx";
 import { ROUTES } from "route-utils";
+import { setServerFlash } from "session-utils";
 
-export const handler: Handlers<{ flash?: FlashMessage }, PersistedSessionState> = {
+export const handler: Handlers<void, PersistedSessionState> = {
   GET(_req, _ctx) {
     return redirect("/");
   },
@@ -18,8 +17,8 @@ export const handler: Handlers<{ flash?: FlashMessage }, PersistedSessionState> 
     if (post.userId !== ctx.state.session.userId) return unauthorizedResponse();
 
     await deletePost(post);
-    ctx.data = flash("Inlägg raderat");
 
+    setServerFlash(ctx, { message: "Inlägget raderat", status: "success" });
     return redirect(ROUTES.cityPath(post.city));
   },
 };

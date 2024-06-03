@@ -27,11 +27,8 @@ export const handler: Handlers<void, PersistedSessionState> = {
 
     const updatedCommment = { ...comment, text };
 
-    const ok = await updateComment({ post, comment: updatedCommment });
+    if (!await updateComment({ post, comment: updatedCommment })) return ctx.renderNotFound();
 
-    if (!ok) return ctx.renderNotFound();
-
-    // TODO add flash message
     return json({ comment: updatedCommment }, 200);
   },
 };

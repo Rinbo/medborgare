@@ -6,6 +6,9 @@ import { COOKIE_MAX_AGE } from "constants";
 import { Optional } from "./optional.ts";
 import { SessionState } from "types";
 import { User } from "kv/users.ts";
+import { FreshContext } from "$fresh/server.ts";
+import { FlashMessage } from "islands/ServerFlash.tsx";
+import { setFlashMessage } from "flash-cache";
 
 const COOKIE_SESSION_NAME = "session";
 
@@ -52,4 +55,9 @@ function createCookieOptions(value: string, maxAge: number): CookieOptions {
     sameSite: "Strict",
     secure: Deno.env.get("DENO_ENV") !== "local",
   };
+}
+
+export function setServerFlash(ctx: FreshContext, flashMessage: FlashMessage) {
+  ctx.state = { ...ctx.state, flash: flashMessage };
+  ctx.state.sessionId && setFlashMessage({ sessionId: ctx.state.sessionId as string, flashMessage }); // needed for redirects
 }

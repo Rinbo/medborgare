@@ -1,17 +1,11 @@
-import { FreshContext, Handlers, PageProps } from "$fresh/server.ts";
+import { Handlers, PageProps } from "$fresh/server.ts";
 import { redirect } from "http-utils";
 import { insertNewPost } from "kv/posts.ts";
 import { Session } from "kv/sessions.ts";
 import { ROUTES } from "route-utils";
-import { setFlashMessage } from "flash-cache";
 import PostForm, { EMPTY_POST, PostFormData, schema } from "islands/forms/PostForm.tsx";
 import { PersistedSessionState } from "types";
-import { FlashMessage } from "islands/ServerFlash.tsx";
-
-function setServerFlash(ctx: FreshContext, flashMessage: FlashMessage) {
-  ctx.state = { ...ctx.state, flash: flashMessage };
-  ctx.state.sessionId && setFlashMessage({ sessionId: ctx.state.sessionId as string, flashMessage }); // needed for redirects
-}
+import { setServerFlash } from "session-utils";
 
 export const handler: Handlers<PostFormData, PersistedSessionState> = {
   GET(_req, ctx) {
@@ -21,7 +15,6 @@ export const handler: Handlers<PostFormData, PersistedSessionState> = {
     const city = decodeURIComponent(ctx.params.city);
 
     const formData = Object.fromEntries(await req.formData());
-
     const validation = schema.safeParse(formData);
 
     if (!validation.success) {

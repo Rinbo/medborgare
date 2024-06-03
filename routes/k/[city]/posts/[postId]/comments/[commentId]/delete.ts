@@ -3,9 +3,9 @@ import { FlashMessage } from "islands/ServerFlash.tsx";
 import { redirect, unauthorizedResponse } from "http-utils";
 import { findById } from "kv/posts.ts";
 import { PersistedSessionState } from "types";
-import { flash } from "misc-utils";
 import { ROUTES } from "route-utils";
 import { deleteComment } from "kv/posts.ts";
+import { setServerFlash } from "session-utils";
 
 export const handler: Handlers<{ flash?: FlashMessage }, PersistedSessionState> = {
   GET(_req, _ctx) {
@@ -24,9 +24,7 @@ export const handler: Handlers<{ flash?: FlashMessage }, PersistedSessionState> 
 
     if (!ok) return ctx.renderNotFound();
 
-    // TODO - rerender will clear this flash - create an in-memory session instead
-    ctx.data = flash("Kommentar raderad");
-
+    setServerFlash(ctx, { message: "Kommentaren raderad", status: "success" });
     return redirect(ROUTES.postPath(post.city, post.id));
   },
 };

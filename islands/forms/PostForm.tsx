@@ -1,11 +1,9 @@
 import { z } from "z";
-import { FlashMessage } from "islands/ServerFlash.tsx";
 import TextInput from "components/form/TextInput.tsx";
 import TextArea from "components/form/TextArea.tsx";
 import { useState } from "preact/hooks";
 import { ROUTES } from "route-utils";
 import { useSignal } from "@preact/signals";
-import Spinner from "components/Spinner.tsx";
 
 export const EMPTY_POST: PostFields = {
   title: "",
@@ -24,7 +22,6 @@ export type PostFormData = {
   formData: PostFields;
   city: string;
   errors?: PostFormErrors;
-  flash?: FlashMessage;
 };
 
 export const schema = z.object({
